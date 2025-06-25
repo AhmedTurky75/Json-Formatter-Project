@@ -1,0 +1,31 @@
+<div class="app-container">
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-content">
+      <div class="logo">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 2C8.28 2 2 8.28 2 16C2 23.72 8.28 30 16 30C23.72 30 30 23.72 30 16C30 8.28 23.72 2 16 2ZM16 27.2C9.9 27.2 4.8 22.1 4.8 16C4.8 9.9 9.9 4.8 16 4.8C22.1 4.8 27.2 9.9 27.2 16C27.2 22.1 22.1 27.2 16 27.2Z" fill="currentColor"/>
+          <path d="M21.65 10.35L14 18L10.35 14.35L8.5 16.2L14 21.7L23.5 12.2L21.65 10.35Z" fill="currentColor"/>
+        </svg>
+        <h1>{{ title }}</h1>
+      </div>
+      <div class="header-actions">
+        <app-theme-toggle></app-theme-toggle>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="app-main">
+    <div class="container">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <div class="container">
+      <p class="footer-text">&copy; {{ currentYear }} JSON Formatter. All rights reserved.</p>
+    </div>
+  </footer>
+</div>

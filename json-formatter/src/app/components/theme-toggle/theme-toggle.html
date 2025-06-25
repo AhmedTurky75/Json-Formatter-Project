@@ -1,0 +1,19 @@
+<div class="theme-toggle-container">
+  <button mat-icon-button
+          [matMenuTriggerFor]="themeMenu"
+          matTooltip="Change theme"
+          aria-label="Change theme">
+    <mat-icon>{{ currentIcon() }}</mat-icon>
+  </button>
+
+  <mat-menu #themeMenu="matMenu">
+    @for (option of themeOptions; track option.value) {
+      <button mat-menu-item 
+              (click)="setTheme(option.value)" 
+              [class.active]="currentTheme() === option.value">
+        <mat-icon>{{ option.icon }}</mat-icon>
+        <span>{{ option.label }}</span>
+      </button>
+    }
+  </mat-menu>
+</div>

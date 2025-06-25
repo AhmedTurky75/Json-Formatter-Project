@@ -1,0 +1,67 @@
+<div class="formatter-container">
+  <div class="formatter-header">
+    <h1>JSON Formatter</h1>
+    <div class="actions">
+      <button mat-raised-button color="primary" (click)="formatJson()" [disabled]="!jsonInput">
+        <mat-icon>format_indent_increase</mat-icon>
+        Format
+      </button>
+      <button mat-raised-button color="accent" (click)="minifyJson()" [disabled]="!jsonInput">
+        <mat-icon>format_indent_decrease</mat-icon>
+        Minify
+      </button>
+      <button mat-raised-button (click)="copyToClipboard()" [disabled]="!jsonOutput">
+        <mat-icon>content_copy</mat-icon>
+        Copy
+      </button>
+      <button mat-raised-button (click)="downloadJson()" [disabled]="!jsonOutput">
+        <mat-icon>download</mat-icon>
+        Download
+      </button>
+    </div>
+  </div>
+
+  <div class="editor-container">
+    <div class="editor-section">
+      <h3>Input JSON</h3>
+      <div class="input-actions">
+        <button mat-button (click)="loadSample()">
+          <mat-icon>description</mat-icon>
+          Load Sample
+        </button>
+        <button mat-button (click)="clearInput()">
+          <mat-icon>clear</mat-icon>
+          Clear
+        </button>
+      </div>
+      <textarea
+        class="json-input"
+        [(ngModel)]="jsonInput"
+        placeholder="Paste your JSON here or use the 'Load Sample' button"
+        spellcheck="false"
+      ></textarea>
+    </div>
+
+    <div class="editor-section">
+      <h3>Formatted JSON</h3>
+      <div class="output-actions">
+        <button mat-button (click)="toggleView()" [disabled]="!jsonOutput">
+          <mat-icon>{{ isTreeView ? 'code' : 'account_tree' }}</mat-icon>
+          {{ isTreeView ? 'Raw View' : 'Tree View' }}
+        </button>
+      </div>
+      <div class="output-container">
+        @if (error) {
+          <div class="error-message">
+            <mat-icon>error_outline</mat-icon>
+            {{ error }}
+          </div>
+        } @else if (isTreeView) {
+          <app-json-tree-view [json]="parsedOutput" class="tree-view"></app-json-tree-view>
+        } @else {
+          <pre class="json-output">{{ jsonOutput || 'Formatted JSON will appear here...' }}</pre>
+        }
+      </div>
+    </div>
+  </div>
+</div>

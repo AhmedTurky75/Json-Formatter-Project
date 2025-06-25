@@ -1,0 +1,115 @@
+<div class="json-tree">
+  @if (error) {
+    <div class="error">
+      <mat-icon>error_outline</mat-icon>
+      {{ error }}
+    </div>
+  }
+  
+  @if (parsedJson) {
+    <ul class="tree">
+      <li>
+        <ng-container *ngTemplateContext="let node = parsedJson">
+          <div class="node" [class.expandable]="node.type === 'object' || node.type === 'array'" (click)="toggleExpand(node)">
+            @if (node.type === 'object' || node.type === 'array') {
+              <mat-icon class="expand-icon">
+                {{ node.expanded ? 'expand_more' : 'chevron_right' }}
+              </mat-icon>
+            } @else {
+              <span class="spacer"></span>
+            }
+            <mat-icon class="type-icon" [title]="node.type">
+              {{ getTypeIcon(node.type) }}
+            </mat-icon>
+            @if (node.key !== undefined) {
+              <span class="key">{{ node.key }}: </span>
+            }
+            @if (node.type === 'string') {
+              <span class="string">"{{ node.value }}"</span>
+            } @else if (node.type === 'number' || node.type === 'boolean') {
+              <span class="{{ node.type }}">{{ node.value }}</span>
+            } @else if (node.type === 'null') {
+              <span class="null">null</span>
+            } @else if (node.type === 'array') {
+              <span class="bracket">[{{ node.children?.length || 0 }}]</span>
+            } @else if (node.type === 'object') {
+              <span class="bracket">{{ '{' }}{{ node.children?.length || 0 }}{{ '}' }}</span>
+            }
+          </div>
+          
+          @if ((node.type === 'object' || node.type === 'array') && node.expanded && node.children) {
+            <ul>
+              @for (child of node.children; track $index) {
+                <li>
+                  <ng-container *ngTemplateContext="let node = child">
+                    <div class="node" [class.expandable]="child.type === 'object' || child.type === 'array'" (click)="toggleExpand(child)">
+                      @if (child.type === 'object' || child.type === 'array') {
+                        <mat-icon class="expand-icon">
+                          {{ child.expanded ? 'expand_more' : 'chevron_right' }}
+                        </mat-icon>
+                      } @else {
+                        <span class="spacer"></span>
+                      }
+                      <mat-icon class="type-icon" [title]="child.type">
+                        {{ getTypeIcon(child.type) }}
+                      </mat-icon>
+                      @if (child.key !== undefined) {
+                        <span class="key">{{ child.key }}: </span>
+                      }
+                      @if (child.type === 'string') {
+                        <span class="string">"{{ child.value }}"</span>
+                      } @else if (child.type === 'number' || child.type === 'boolean') {
+                        <span class="{{ child.type }}">{{ child.value }}</span>
+                      } @else if (child.type === 'null') {
+                        <span class="null">null</span>
+                      } @else if (child.type === 'array') {
+                        <span class="bracket">[{{ child.children?.length || 0 }}]</span>
+                      } @else if (child.type === 'object') {
+                        <span class="bracket">{{ '{' }}{{ child.children?.length || 0 }}{{ '}' }}</span>
+                      }
+                    </div>
+                    
+                    @if ((child.type === 'object' || child.type === 'array') && child.expanded && child.children) {
+                      <ul>
+                        @for (grandChild of child.children; track $index) {
+                          <li>
+                            <!-- Add more levels as needed -->
+                            <div class="node">
+                              <span class="spacer"></span>
+                              <mat-icon class="type-icon" [title]="grandChild.type">
+                                {{ getTypeIcon(grandChild.type) }}
+                              </mat-icon>
+                              @if (grandChild.key !== undefined) {
+                                <span class="key">{{ grandChild.key }}: </span>
+                              }
+                              @if (grandChild.type === 'string') {
+                                <span class="string">"{{ grandChild.value }}"</span>
+                              } @else if (grandChild.type === 'number' || grandChild.type === 'boolean') {
+                                <span class="{{ grandChild.type }}">{{ grandChild.value }}</span>
+                              } @else if (grandChild.type === 'null') {
+                                <span class="null">null</span>
+                              } @else {
+                                <span class="bracket">{{ grandChild.type === 'array' ? '[...]' : '{...}' }}</span>
+                              }
+                            </div>
+                          </li>
+                        }
+                      </ul>
+                    }
+                  </ng-container>
+                </li>
+              }
+            </ul>
+          }
+        </ng-container>
+      </li>
+    </ul>
+  }
+  
+  @if (!parsedJson && !error) {
+    <div class="empty">
+      <mat-icon>code_off</mat-icon>
+      No JSON data to display
+    </div>
+  }
+</div>
