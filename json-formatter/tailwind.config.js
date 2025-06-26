@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: 'class', // Enable class-based dark mode
   content: [
     "./src/**/*.{html,ts}",
     "./projects/**/*.{html,ts}"
@@ -21,6 +22,14 @@ module.exports = {
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
         mono: ['Fira Code', 'monospace'],
+      },
+      backgroundColor: {
+        'dark': '#1a202c',
+        'light': '#ffffff',
+      },
+      textColor: {
+        'dark': '#f7fafc',
+        'light': '#1a202c',
       },
     },
   },

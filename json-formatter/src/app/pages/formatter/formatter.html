@@ -57,11 +57,8 @@
             {{ error }}
           </div>
         } @else if (isTreeView) {
-          <h1>tree</h1>
-
           <app-json-tree-view [json]="parsedOutput" class="tree-view"></app-json-tree-view>
         } @else {
-          <h1>pre</h1>
           <pre class="json-output">{{ jsonOutput || 'Formatted JSON will appear here...' }}</pre>
         }
       </div>
