@@ -12,6 +12,8 @@
   --foreground-rgb: 255, 255, 255;
   --background-start-rgb: 15, 23, 42;
   --background-end-rgb: 2, 6, 23;
+  --code-bg: rgba(30, 41, 59, 0.8);
+  --card-bg: rgba(15, 23, 42, 0.9);
 }
 
 html, body {
@@ -32,17 +34,64 @@ body {
 }
 
 /* Additional dark mode styles */
-.dark .mat-mdc-card {
-  background-color: rgba(30, 41, 59, 0.8);
-  color: #f8fafc;
-}
+.dark {
+  --border-color: rgba(71, 85, 105, 0.5);
+  --border-color-hover: rgba(100, 116, 139, 0.5);
+  
+  .mat-mdc-card {
+    background-color: rgba(30, 41, 59, 0.8);
+    color: #f8fafc;
+    border: 1px solid var(--border-color);
+  }
 
-.dark .mat-mdc-form-field {
-  --mdc-filled-text-field-container-color: rgba(30, 41, 59, 0.8);
-  --mdc-filled-text-field-input-text-color: #f8fafc;
-  --mdc-filled-text-field-label-text-color: #94a3b8;
-  --mdc-filled-text-field-focus-label-text-color: #60a5fa;
-  --mdc-filled-text-field-focus-active-indicator-color: #60a5fa;
+  .mat-mdc-form-field {
+    --mdc-filled-text-field-container-color: rgba(30, 41, 59, 0.8);
+    --mdc-filled-text-field-input-text-color: #f8fafc;
+    --mdc-filled-text-field-label-text-color: #94a3b8;
+    --mdc-filled-text-field-focus-label-text-color: #60a5fa;
+    --mdc-filled-text-field-focus-active-indicator-color: #60a5fa;
+    --mdc-filled-text-field-focus-active-indicator-height: 2px;
+  }
+  
+  /* Add border to all elements with border class */
+  .border {
+    border-color: var(--border-color) !important;
+  }
+  
+  /* Style for buttons and interactive elements */
+  button, .btn, .mat-mdc-button {
+    border-color: var(--border-color) !important;
+    
+    &:hover {
+      border-color: var(--border-color-hover) !important;
+    }
+  }
+  
+  /* Style for input fields */
+  .mat-mdc-text-field-wrapper {
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    
+    &:hover {
+      border-color: var(--border-color-hover);
+    }
+  }
+  
+  /* Style for the tree view */
+  .tree-view {
+    --tree-border-color: var(--border-color);
+    
+    .node {
+      &.expandable {
+        border-left: 1px solid var(--tree-border-color);
+      }
+    }
+  }
+  
+  /* Adjust card backgrounds */
+  .mat-mdc-card {
+    background-color: var(--card-bg) !important;
+  }
 }
 
 /* Custom scrollbar for dark mode */
