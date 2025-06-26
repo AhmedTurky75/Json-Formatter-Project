@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, PLATFORM_ID, Inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, PLATFORM_ID, Inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -39,6 +39,7 @@ export class Formatter implements OnInit, OnDestroy {
     private clipboard: Clipboard,
     private snackBar: MatSnackBar,
     private elementRef: ElementRef,
+    private cdr: ChangeDetectorRef,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     if (typeof window !== 'undefined' && (window as any).Prism) {
@@ -52,13 +53,17 @@ export class Formatter implements OnInit, OnDestroy {
   }
 
   formatJson() {
+    this.jsonOutput = 'Ahmed';
+    console.log(this.jsonOutput);
     try {
       const parsed = JSON.parse(this.jsonInput);
-      this.parsedOutput = parsed;
+      // Create a new reference to trigger change detection
+      this.parsedOutput = JSON.parse(JSON.stringify(parsed));
+      
       this.jsonOutput = JSON.stringify(parsed, null, 2);
       this.error = null;
-      
-      // Highlight the code after a small delay to ensure the DOM is updated
+      this.isTreeView = false;
+      // Manually trigger change detection
       if (this.prismInitialized) {
         setTimeout(() => this.highlightCode(), 0);
       }
@@ -73,9 +78,14 @@ export class Formatter implements OnInit, OnDestroy {
   minifyJson() {
     try {
       const parsed = JSON.parse(this.jsonInput);
-      this.parsedOutput = parsed;
+      // Create a new reference to trigger change detection
+      this.parsedOutput = JSON.parse(JSON.stringify(parsed));
       this.jsonOutput = JSON.stringify(parsed);
       this.error = null;
+      this.isTreeView = false;
+      
+      // Manually trigger change detection
+      this.cdr.detectChanges();
     } catch (error) {
       this.error = 'Invalid JSON. Please check your input.';
       this.jsonOutput = '';
@@ -145,7 +155,13 @@ export class Formatter implements OnInit, OnDestroy {
   
   private highlightCode() {
     if (typeof (window as any).Prism !== 'undefined') {
-      (window as any).Prism.highlightAllUnder(this.elementRef.nativeElement);
+      // Only highlight the pre element with the 'line-numbers' class
+      const preElement = this.elementRef.nativeElement.querySelector('pre.line-numbers');
+      if (preElement) {
+        // Remove any existing line numbers and re-apply Prism highlighting
+        preElement.innerHTML = this.jsonOutput;
+        (window as any).Prism.highlightElement(preElement);
+      }
     }
   }
   
