@@ -25,6 +25,8 @@ export class JsonTreeView implements OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['json']) {
       this.parseJson();
+      console.log(this.parsedJson );
+
     }
   }
 

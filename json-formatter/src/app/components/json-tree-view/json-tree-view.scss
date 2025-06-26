@@ -102,13 +102,43 @@
       flex-shrink: 0;
     }
     
-    .expand-icon, .type-icon {
+    .type-icon {
       font-size: 16px;
       width: 16px;
       height: 16px;
       margin-right: 4px;
       flex-shrink: 0;
       color: var(--text-secondary);
+    }
+    
+    .expand-button {
+      background: none;
+      border: 1px solid var(--border-color);
+      border-radius: 3px;
+      width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 6px;
+      padding: 0;
+      cursor: pointer;
+      background-color: var(--background-card);
+      transition: background-color 0.2s;
+      
+      &:hover {
+        background-color: var(--hover-bg);
+      }
+      
+      .expand-icon {
+        font-size: 14px;
+        font-weight: bold;
+        line-height: 1;
+        color: var(--text-secondary);
+        display: block;
+        margin-top: -1px;
+        user-select: none;
+      }
     }
     
     .key {
