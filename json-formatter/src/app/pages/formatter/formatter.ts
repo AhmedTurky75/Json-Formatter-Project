@@ -32,6 +32,7 @@ export class Formatter implements OnInit, OnDestroy {
   jsonInput: string = '';
   jsonOutput: string = '';
   isTreeView: boolean = false;
+  isMinified: boolean = false;
   parsedOutput: any = null;
   error: string | null = null;
 
@@ -53,17 +54,15 @@ export class Formatter implements OnInit, OnDestroy {
   }
 
   formatJson() {
-    this.jsonOutput = 'Ahmed';
-    console.log(this.jsonOutput);
     try {
       const parsed = JSON.parse(this.jsonInput);
       // Create a new reference to trigger change detection
       this.parsedOutput = JSON.parse(JSON.stringify(parsed));
-      
       this.jsonOutput = JSON.stringify(parsed, null, 2);
       this.error = null;
       this.isTreeView = false;
-      // Manually trigger change detection
+      this.isMinified = false;
+      
       if (this.prismInitialized) {
         setTimeout(() => this.highlightCode(), 0);
       }
@@ -83,9 +82,7 @@ export class Formatter implements OnInit, OnDestroy {
       this.jsonOutput = JSON.stringify(parsed);
       this.error = null;
       this.isTreeView = false;
-      
-      // Manually trigger change detection
-      this.cdr.detectChanges();
+      this.isMinified = true;
     } catch (error) {
       this.error = 'Invalid JSON. Please check your input.';
       this.jsonOutput = '';
@@ -155,11 +152,10 @@ export class Formatter implements OnInit, OnDestroy {
   
   private highlightCode() {
     if (typeof (window as any).Prism !== 'undefined') {
-      // Only highlight the pre element with the 'line-numbers' class
-      const preElement = this.elementRef.nativeElement.querySelector('pre.line-numbers');
+      const preElement = this.elementRef.nativeElement.querySelector('pre.language-json');
       if (preElement) {
-        // Remove any existing line numbers and re-apply Prism highlighting
-        preElement.innerHTML = this.jsonOutput;
+        // Update content and apply Prism highlighting
+        preElement.textContent = this.jsonOutput;
         (window as any).Prism.highlightElement(preElement);
       }
     }

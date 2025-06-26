@@ -61,7 +61,11 @@
         } @else {
           <div class="json-output-container">
             @if (jsonOutput) {
-              <pre class="line-numbers language-json"><code class="language-json">{{ jsonOutput }}</code></pre>
+              @if (isMinified) {
+                <pre class="minified-json">{{ jsonOutput }}</pre>
+              } @else {
+                <pre class="language-json"><code class="language-json">{{ jsonOutput }}</code></pre>
+              }
             } @else {
               <div class="empty-state">
                 <mat-icon>code_off</mat-icon>
