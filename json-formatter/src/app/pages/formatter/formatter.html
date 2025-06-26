@@ -54,12 +54,21 @@
         @if (error) {
           <div class="error-message">
             <mat-icon>error_outline</mat-icon>
-            {{ error }}
+            <span>{{ error }}</span>
           </div>
         } @else if (isTreeView) {
           <app-json-tree-view [json]="parsedOutput" class="tree-view"></app-json-tree-view>
         } @else {
-          <pre class="json-output">{{ jsonOutput || 'Formatted JSON will appear here...' }}</pre>
+          <div class="json-output-container">
+            @if (jsonOutput) {
+              <pre class="line-numbers language-json"><code class="language-json">{{ jsonOutput }}</code></pre>
+            } @else {
+              <div class="empty-state">
+                <mat-icon>code_off</mat-icon>
+                <p>Formatted JSON will appear here...</p>
+              </div>
+            }
+          </div>
         }
       </div>
     </div>

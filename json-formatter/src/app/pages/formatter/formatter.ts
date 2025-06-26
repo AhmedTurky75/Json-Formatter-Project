@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, PLATFORM_ID, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -25,7 +25,8 @@ import { JsonTreeView } from '../../components/json-tree-view/json-tree-view';
   templateUrl: './formatter.html',
   styleUrls: ['./formatter.scss']
 })
-export class Formatter implements OnInit {
+export class Formatter implements OnInit, OnDestroy {
+  private prismInitialized = false;
   @ViewChild('jsonInputRef') jsonInputRef!: ElementRef<HTMLTextAreaElement>;
   
   jsonInput: string = '';
@@ -36,8 +37,14 @@ export class Formatter implements OnInit {
 
   constructor(
     private clipboard: Clipboard,
-    private snackBar: MatSnackBar
-  ) {}
+    private snackBar: MatSnackBar,
+    private elementRef: ElementRef,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {
+    if (typeof window !== 'undefined' && (window as any).Prism) {
+      this.prismInitialized = true;
+    }
+  }
 
   ngOnInit() {
     // Load sample JSON on init
@@ -50,6 +57,11 @@ export class Formatter implements OnInit {
       this.parsedOutput = parsed;
       this.jsonOutput = JSON.stringify(parsed, null, 2);
       this.error = null;
+      
+      // Highlight the code after a small delay to ensure the DOM is updated
+      if (this.prismInitialized) {
+        setTimeout(() => this.highlightCode(), 0);
+      }
     } catch (error) {
       this.error = 'Invalid JSON. Please check your input.';
       this.jsonOutput = '';
@@ -125,6 +137,20 @@ export class Formatter implements OnInit {
 
   toggleView() {
     this.isTreeView = !this.isTreeView;
+    if (!this.isTreeView && this.prismInitialized) {
+      // Re-highlight code when switching back to code view
+      setTimeout(() => this.highlightCode(), 0);
+    }
+  }
+  
+  private highlightCode() {
+    if (typeof (window as any).Prism !== 'undefined') {
+      (window as any).Prism.highlightAllUnder(this.elementRef.nativeElement);
+    }
+  }
+  
+  ngOnDestroy() {
+    // Cleanup if needed
   }
 
   private showError(message: string) {
