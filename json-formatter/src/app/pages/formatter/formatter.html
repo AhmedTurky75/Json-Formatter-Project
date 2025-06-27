@@ -1,25 +1,5 @@
 <div class="formatter-container">
-  <div class="formatter-header">
-    <h1>JSON Formatter</h1>
-    <div class="actions">
-      <button mat-raised-button color="primary" (click)="formatJson()" [disabled]="!jsonInput">
-        <mat-icon>format_indent_increase</mat-icon>
-        Format
-      </button>
-      <button mat-raised-button color="accent" (click)="minifyJson()" [disabled]="!jsonInput">
-        <mat-icon>format_indent_decrease</mat-icon>
-        Minify
-      </button>
-      <button mat-raised-button (click)="copyToClipboard()" [disabled]="!jsonOutput">
-        <mat-icon>content_copy</mat-icon>
-        Copy
-      </button>
-      <button mat-raised-button (click)="downloadJson()" [disabled]="!jsonOutput">
-        <mat-icon>download</mat-icon>
-        Download
-      </button>
-    </div>
-  </div>
+
 
   <div class="editor-container">
     <!-- Input Section -->
