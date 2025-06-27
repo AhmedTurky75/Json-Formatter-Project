@@ -104,17 +104,7 @@
         <!-- Converted Output (XML/YAML/CSV) -->
         @else if (convertedOutput) {
           <div class="output-wrapper">
-            <div class="output-header">
-              <span class="format-badge">{{ currentFormat.toUpperCase() }}</span>
-              <div class="output-actions">
-                <button mat-icon-button (click)="copyConvertedToClipboard()" matTooltip="Copy to clipboard">
-                  <mat-icon>content_copy</mat-icon>
-                </button>
-                <button mat-icon-button (click)="downloadConverted()" matTooltip="Download">
-                  <mat-icon>download</mat-icon>
-                </button>
-              </div>
-            </div>
+
             
             @if (conversionError) {
               <div class="error-message">
@@ -138,17 +128,7 @@
         <!-- JSON Output -->
         @else if (jsonOutput) {
           <div class="output-wrapper">
-            <div class="output-header">
-              <span class="format-badge">JSON</span>
-              <div class="output-actions">
-                <button mat-icon-button (click)="copyToClipboard()" matTooltip="Copy to clipboard">
-                  <mat-icon>content_copy</mat-icon>
-                </button>
-                <button mat-icon-button (click)="downloadJson()" matTooltip="Download">
-                  <mat-icon>download</mat-icon>
-                </button>
-              </div>
-            </div>
+
 
             <div class="output-content">
               @if (isMinified) {
