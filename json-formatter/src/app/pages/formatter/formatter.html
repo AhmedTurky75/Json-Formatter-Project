@@ -22,6 +22,7 @@
   </div>
 
   <div class="editor-container">
+    <!-- Input Section -->
     <div class="editor-section">
       <h3>Input JSON</h3>
       <div class="input-actions">
@@ -42,36 +43,130 @@
       ></textarea>
     </div>
 
-    <div class="editor-section">
-      <h3>Formatted JSON</h3>
-      <div class="output-actions">
-        <button mat-button (click)="toggleView()" [disabled]="!jsonOutput">
+    <!-- Action Buttons Column -->
+    <div class="actions-column">
+      <div class="action-buttons">
+        <button mat-raised-button color="primary" (click)="formatJson()" [disabled]="!jsonInput">
+          <mat-icon>format_indent_increase</mat-icon>
+          Format
+        </button>
+        <button mat-raised-button color="accent" (click)="minifyJson()" [disabled]="!jsonInput">
+          <mat-icon>format_indent_decrease</mat-icon>
+          Minify
+        </button>
+        <button mat-raised-button (click)="toggleView()" [disabled]="!jsonOutput">
           <mat-icon>{{ isTreeView ? 'code' : 'account_tree' }}</mat-icon>
           {{ isTreeView ? 'Raw View' : 'Tree View' }}
         </button>
+        <div class="divider"></div>
+        <button mat-raised-button (click)="convertToXml()" [disabled]="!jsonInput">
+          <mat-icon>code</mat-icon>
+          To XML
+        </button>
+        <button mat-raised-button (click)="convertToYaml()" [disabled]="!jsonInput">
+          <mat-icon>code</mat-icon>
+          To YAML
+        </button>
+        <button mat-raised-button (click)="convertToCsv()" [disabled]="!jsonInput">
+          <mat-icon>table_chart</mat-icon>
+          To CSV
+        </button>
+      </div>
+    </div>
+
+    <!-- Output Section -->
+    <div class="editor-section">
+      <h3>Formatted JSON</h3>
+      <div class="output-actions">
+        <button mat-button (click)="copyToClipboard()" [disabled]="!jsonOutput">
+          <mat-icon>content_copy</mat-icon>
+          Copy
+        </button>
+        <button mat-button (click)="downloadJson()" [disabled]="!jsonOutput">
+          <mat-icon>download</mat-icon>
+          Download
+        </button>
       </div>
       <div class="output-container">
+        <!-- Error State -->
         @if (error) {
           <div class="error-message">
             <mat-icon>error_outline</mat-icon>
             <span>{{ error }}</span>
           </div>
-        } @else if (isTreeView) {
+        }
+
+        <!-- Tree View -->
+        @else if (isTreeView) {
           <app-json-tree-view [json]="parsedOutput" class="tree-view"></app-json-tree-view>
-        } @else {
-          <div class="json-output-container">
-            @if (jsonOutput) {
+        }
+
+        <!-- Converted Output (XML/YAML/CSV) -->
+        @else if (convertedOutput) {
+          <div class="output-wrapper">
+            <div class="output-header">
+              <span class="format-badge">{{ currentFormat.toUpperCase() }}</span>
+              <div class="output-actions">
+                <button mat-icon-button (click)="copyConvertedToClipboard()" matTooltip="Copy to clipboard">
+                  <mat-icon>content_copy</mat-icon>
+                </button>
+                <button mat-icon-button (click)="downloadConverted()" matTooltip="Download">
+                  <mat-icon>download</mat-icon>
+                </button>
+              </div>
+            </div>
+            
+            @if (conversionError) {
+              <div class="error-message">
+                <mat-icon>error_outline</mat-icon>
+                <span>{{ conversionError }}</span>
+              </div>
+            }
+
+            <div class="output-content">
+              @if (currentFormat === 'csv') {
+                <pre class="csv-output">{{ convertedOutput }}</pre>
+              } @else {
+                <pre class="language-{{ currentFormat }}">
+                  <code class="language-{{ currentFormat }}">{{ convertedOutput }}</code>
+                </pre>
+              }
+            </div>
+          </div>
+        }
+
+        <!-- JSON Output -->
+        @else if (jsonOutput) {
+          <div class="output-wrapper">
+            <div class="output-header">
+              <span class="format-badge">JSON</span>
+              <div class="output-actions">
+                <button mat-icon-button (click)="copyToClipboard()" matTooltip="Copy to clipboard">
+                  <mat-icon>content_copy</mat-icon>
+                </button>
+                <button mat-icon-button (click)="downloadJson()" matTooltip="Download">
+                  <mat-icon>download</mat-icon>
+                </button>
+              </div>
+            </div>
+
+            <div class="output-content">
               @if (isMinified) {
                 <pre class="minified-json">{{ jsonOutput }}</pre>
               } @else {
                 <pre class="language-json"><code class="language-json">{{ jsonOutput }}</code></pre>
               }
-            } @else {
-              <div class="empty-state">
-                <mat-icon>code_off</mat-icon>
-                <p>Formatted JSON will appear here...</p>
-              </div>
-            }
+            </div>
+          </div>
+        }
+
+
+
+        <!-- Empty State -->
+        @else {
+          <div class="empty-state">
+            <mat-icon>code_off</mat-icon>
+            <p>Formatted JSON will appear here...</p>
           </div>
         }
       </div>
