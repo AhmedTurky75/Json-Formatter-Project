@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
+import { Formatter } from '../formatter/formatter';
 
 @Component({
   selector: 'app-home',
@@ -11,7 +12,8 @@ import { RouterModule } from '@angular/router';
     CommonModule, 
     MatIconModule, 
     MatButtonModule,
-    RouterModule
+    RouterModule,
+    Formatter
   ],
   templateUrl: './home.html',
   styleUrls: ['./home.scss']
