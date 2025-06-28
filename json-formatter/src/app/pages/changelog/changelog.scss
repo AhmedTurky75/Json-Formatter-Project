@@ -8,13 +8,19 @@
   // Header Styles
   .header {
     padding: 3rem 0;
-    margin-bottom: 2rem;
+    margin: 1rem 0 2rem;
     position: relative;
     overflow: hidden;
     border-radius: 12px;
-    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-    color: white;
-    margin-top: 1rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+
+    &:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
 
     &::before {
       content: '';
@@ -22,9 +28,8 @@
       top: 0;
       left: 0;
       right: 0;
-      bottom: 0;
-      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" fill="rgba(255,255,255,0.05)"><path d="M30,10L50,30L70,10L90,30L70,50L90,70L70,90L50,70L30,90L10,70L30,50L10,30L30,10Z"/></svg>');
-      opacity: 0.2;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
     }
 
     .header-content {
@@ -40,14 +45,28 @@
       font-size: 3rem;
       margin: 0 0 0.5rem;
       font-weight: 800;
-      color: white;
+      color: var(--text-color);
+      position: relative;
+      display: inline-block;
+      
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 0;
+        width: 60px;
+        height: 4px;
+        background: var(--primary-color);
+        border-radius: 2px;
+      }
     }
 
     .subtitle {
       font-size: 1.2rem;
-      opacity: 0.9;
-      margin-bottom: 2.5rem;
+      color: var(--text-secondary);
+      margin: 1.5rem auto 2.5rem;
       max-width: 700px;
+      line-height: 1.6;
       margin-left: auto;
       margin-right: auto;
     }
@@ -498,6 +517,15 @@
 
 // Dark theme specific styles
 :host-context(.dark-theme) {
+  .header {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+    
+    &::before {
+      opacity: 0.8;
+    }
+  }
+  
   .current-version {
     background: rgba(255, 255, 255, 0.05);
   }

@@ -15,10 +15,12 @@ export class ThemeService {
   private themePreference = signal<Theme>('dark');
   
   // Signal to track the current actual theme mode (light/dark)
-  private currentMode = signal<ThemeMode>('light');
+  // Default to dark mode
+  private currentMode = signal<ThemeMode>('dark');
   
   // Subject to notify about theme mode changes
-  private modeChangedSubject = new BehaviorSubject<boolean>(false);
+  // Initialize with true for dark mode by default
+  private modeChangedSubject = new BehaviorSubject<boolean>(true);
   
   // Public observable for mode changes
   public currentModeChanged: Observable<boolean> = this.modeChangedSubject.asObservable();
@@ -81,15 +83,16 @@ export class ThemeService {
   /**
    * Initialize the theme service
    */
-  initialize(): void {
+  public initialize(): void {
     if (typeof window === 'undefined') return;
     
-    // Get saved theme preference or use system preference
+    // Get saved theme from localStorage or default to dark theme
     const savedTheme = localStorage.getItem('theme') as Theme | null;
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     
-    // Set the initial theme
-    this.themePreference.set(savedTheme || 'system');
+    // Default to dark theme if no saved preference
+    const theme = savedTheme || 'dark';
+    this.themePreference.set(theme);
     this.currentMode.set(savedTheme === 'dark' || (savedTheme === 'system' && prefersDark) ? 'dark' : 'light');
   }
   

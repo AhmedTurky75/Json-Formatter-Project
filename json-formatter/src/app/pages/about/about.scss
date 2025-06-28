@@ -4,6 +4,18 @@
   padding: 0 1rem;
   color: var(--text-color);
 
+  // Dark theme specific styles
+  :host-context(.dark-theme) {
+    .hero {
+      background-color: var(--card-bg);
+      border-color: var(--border-color);
+      
+      &::before {
+        opacity: 0.8;
+      }
+    }
+  }
+
   // Shared section styles
   section {
     padding: 4rem 0;
@@ -29,32 +41,67 @@
 
   // Hero Section
   .hero {
-    padding: 6rem 0;
+    padding: 5rem 0;
     text-align: center;
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
-    color: white;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
     border-radius: 12px;
     margin: 1rem 0 3rem;
     position: relative;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+
+    &:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+    }
+
+
 
     .hero-content {
       position: relative;
       z-index: 1;
       max-width: 800px;
       margin: 0 auto;
-      padding: 0 1.5rem;
+      padding: 0 2rem;
     }
 
     h1 {
       font-size: 3rem;
-      margin-bottom: 1rem;
-      color: white;
+      margin: 0 0 1rem;
+      position: relative;
+      display: inline-block;
+      color: var(--text-color);
+      
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 4px;
+        background: var(--primary-color);
+        border-radius: 2px;
+      }
     }
 
     .subtitle {
-      font-size: 1.3rem;
-      margin-bottom: 2.5rem;
-      opacity: 0.9;
+      font-size: 1.2rem;
+      margin: 1.5rem auto 2.5rem;
+      max-width: 700px;
+      color: var(--text-secondary);
+      line-height: 1.6;
     }
 
     .cta-buttons {
