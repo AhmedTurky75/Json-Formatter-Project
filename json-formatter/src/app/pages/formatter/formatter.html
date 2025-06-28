@@ -72,7 +72,7 @@
           <mat-icon>content_copy</mat-icon>
           Copy
         </button>
-        <button mat-button (click)="downloadJson()" [disabled]="!jsonOutput">
+        <button mat-button (click)="downloadCurrentContent()" [disabled]="!(jsonOutput || convertedOutput)">
           <mat-icon>download</mat-icon>
           Download
         </button>

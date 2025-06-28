@@ -135,15 +135,52 @@ export class Formatter implements OnInit, OnDestroy {
     }
   }
 
-  downloadJson() {
-    const content = this.jsonOutput || this.jsonInput;
-    if (!content) return;
-    
-    const blob = new Blob([content], { type: 'application/json' });
+  /**
+   * Downloads the current content with appropriate file type and name
+   * Handles all cases: minified JSON, formatted JSON, and converted formats (XML, YAML, CSV)
+   */
+  downloadCurrentContent() {
+    // Determine content and file extension based on current state
+    let content: string;
+    let extension: string;
+    let mimeType: string;
+    let defaultFilename = 'output';
+
+    if (this.convertedOutput) {
+      // Handle converted formats (XML, YAML, CSV)
+      content = this.convertedOutput;
+      extension = this.currentFormat;
+      mimeType = this.getMimeType(this.currentFormat);
+      defaultFilename = `converted.${extension}`;
+    } else if (this.isMinified && this.minifiedOutput) {
+      // Handle minified JSON
+      content = this.minifiedOutput;
+      extension = 'json';
+      mimeType = 'application/json';
+      defaultFilename = 'minified.json';
+    } else if (this.jsonOutput) {
+      // Handle formatted JSON
+      content = this.jsonOutput;
+      extension = 'json';
+      mimeType = 'application/json';
+      defaultFilename = 'formatted.json';
+    } else if (this.jsonInput) {
+      // Fallback to input if no output is available
+      content = this.jsonInput;
+      extension = 'json';
+      mimeType = 'application/json';
+      defaultFilename = 'input.json';
+    } else {
+      // Nothing to download
+      return;
+    }
+
+    // Create and trigger download
+    const blob = new Blob([content], { type: mimeType });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = this.jsonOutput ? 'formatted.json' : 'input.json';
+    a.download = defaultFilename;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -183,12 +220,11 @@ export class Formatter implements OnInit, OnDestroy {
         this.parsedOutput = parsed;
         
         // When switching to raw view, ensure we show formatted JSON
+        this.minifiedOutput = ''; // Reset minified output
+        this.isMinified = false;
         if (mode === 'raw') {
           this.jsonOutput = JSON.stringify(parsed, null, 2);
-
-          this.minifiedOutput = ''; // Reset minified output
           this.error = null;
-          this.isMinified = false;
           this.convertedOutput = ''; // Clear any previous conversion
           this.currentFormat = 'json';
           
@@ -399,18 +435,18 @@ export class Formatter implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * @deprecated Use downloadCurrentContent() instead
+   */
   downloadConverted() {
-    if (!this.convertedOutput) return;
-    
-    const blob = new Blob([this.convertedOutput], { type: this.getMimeType(this.currentFormat) });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `converted.${this.currentFormat}`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    window.URL.revokeObjectURL(url);
+    this.downloadCurrentContent();
+  }
+
+  /**
+   * @deprecated Use downloadCurrentContent() instead
+   */
+  downloadJson() {
+    this.downloadCurrentContent();
   }
 
   private getMimeType(format: OutputFormat): string {
