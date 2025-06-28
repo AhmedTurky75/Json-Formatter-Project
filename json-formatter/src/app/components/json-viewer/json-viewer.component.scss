@@ -36,11 +36,32 @@
   margin: 0;
   padding: 0;
   line-height: 1.5;
+  display: inline-block;
+  vertical-align: top;
 }
 
 .child-node {
   margin-left: 24px;
   position: relative;
+  display: block;
+}
+
+.children {
+  margin-left: 24px;
+  position: relative;
+  display: block;
+  
+  /* Add a subtle border on the left to show nesting */
+  border-left: 1px solid var(--border-color, #e0e0e0);
+  padding-left: 12px;
+  margin-left: 12px;
+}
+
+.bracket-line {
+  display: inline-block;
+  vertical-align: top;
+  margin-left: 0;
+  padding-left: 0;
 }
 
 .key {
@@ -69,8 +90,15 @@
   opacity: 0.9;
 }
 
-.bracket, .comma {
+.bracket {
   color: var(--text-primary);
+  display: inline-block;
+  vertical-align: top;
+}
+
+.comma {
+  color: var(--text-primary);
+  margin-right: 4px;
 }
 
 .expand-button {
@@ -130,6 +158,8 @@
 
 .empty {
   color: var(--text-secondary);
+  display: inline-block;
+  vertical-align: top;
 }
 
 // Dark theme overrides with enhanced contrast and distinction

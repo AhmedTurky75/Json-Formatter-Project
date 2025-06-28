@@ -1,7 +1,7 @@
 <div class="json-viewer">
   <ng-container *ngIf="rootNode; else emptyState">
     <div class="json-container">
-      <ng-container *ngTemplateOutlet="jsonNode; context: { $implicit: rootNode, isRoot: true, isLast: true }"></ng-container>
+      <ng-container *ngTemplateOutlet="jsonNode; context: { $implicit: rootNode, isRoot: true, isLast: true, parentType: 'root' }"></ng-container>
     </div>
   </ng-container>
   <ng-template #emptyState>
@@ -9,16 +9,11 @@
   </ng-template>
 </div>
 
-<ng-template #jsonNode let-node="$implicit" let-isRoot="isRoot" let-isLast="isLast">
+<ng-template #jsonNode let-node="$implicit" let-isRoot="isRoot" let-isLast="isLast" let-parentType="parentType">
   <div class="json-node">
-    <!-- Key for objects -->
-    <ng-container *ngIf="node.key !== undefined && node.type === 'object'">
+    <!-- Show key for object properties -->
+    <ng-container *ngIf="node.key !== undefined && parentType === 'object'">
       <span class="key">"{{node.key}}": </span>
-    </ng-container>
-    
-    <!-- Array index -->
-    <ng-container *ngIf="node.key !== undefined && node.type === 'array' && !isRoot">
-      <span class="key">{{node.key}}: </span>
     </ng-container>
 
     <!-- Expandable container for objects and arrays -->
@@ -43,7 +38,7 @@
       <div *ngIf="node.expanded && node.children && node.children.length > 0" class="children">
         <ng-container *ngFor="let child of node.children; let last = last; trackBy: trackByFn">
           <div class="child-node">
-            <ng-container *ngTemplateOutlet="jsonNode; context: { $implicit: child, isRoot: false, isLast: last }"></ng-container>
+            <ng-container *ngTemplateOutlet="jsonNode; context: { $implicit: child, isRoot: false, isLast: last, parentType: node.type }"></ng-container>
           </div>
         </ng-container>
         
@@ -65,7 +60,7 @@
           <span *ngSwitchDefault>{{node.value}}</span>
         </ng-container>
       </span>
-      <span *ngIf="!isLast && (node.type === 'string' || node.type === 'number' || node.type === 'boolean' || node.type === 'null')" class="comma">,</span>
+      <span *ngIf="!isLast" class="comma">,</span>
     </ng-container>
   </div>
 </ng-template>
