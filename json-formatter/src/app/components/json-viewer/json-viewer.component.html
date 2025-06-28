@@ -1,0 +1,70 @@
+<div class="json-viewer">
+  <ng-container *ngIf="rootNode; else emptyState">
+    <div class="json-container">
+      <ng-container *ngTemplateOutlet="jsonNode; context: { $implicit: rootNode, isRoot: true, isLast: true }"></ng-container>
+    </div>
+  </ng-container>
+  <ng-template #emptyState>
+    <div class="json-empty">No JSON data to display</div>
+  </ng-template>
+</div>
+
+<ng-template #jsonNode let-node="$implicit" let-isRoot="isRoot" let-isLast="isLast">
+  <div class="json-node">
+    <!-- Key for objects -->
+    <ng-container *ngIf="node.key !== undefined && node.type === 'object'">
+      <span class="key">"{{node.key}}": </span>
+    </ng-container>
+    
+    <!-- Array index -->
+    <ng-container *ngIf="node.key !== undefined && node.type === 'array' && !isRoot">
+      <span class="key">{{node.key}}: </span>
+    </ng-container>
+
+    <!-- Expandable container for objects and arrays -->
+    <ng-container *ngIf="node.type === 'object' || node.type === 'array'">
+      <!-- Opening bracket -->
+      <span class="bracket">{{getBracket(node.type, true)}}</span>
+      
+      <!-- Expand/collapse button -->
+      <button *ngIf="node.children && node.children.length > 0" 
+              class="expand-button" 
+              (click)="toggleNode(node, $event)"
+              [attr.aria-expanded]="node.expanded">
+        <span class="expand-icon">{{node.expanded ? '−' : '+'}}</span>
+      </button>
+      
+      <!-- Empty object/array -->
+      <span *ngIf="!node.children || node.children.length === 0" class="empty">
+        {{node.type === 'array' ? ']' : '}'}}
+      </span>
+      
+      <!-- Children -->
+      <div *ngIf="node.expanded && node.children && node.children.length > 0" class="children">
+        <ng-container *ngFor="let child of node.children; let last = last; trackBy: trackByFn">
+          <div class="child-node">
+            <ng-container *ngTemplateOutlet="jsonNode; context: { $implicit: child, isRoot: false, isLast: last }"></ng-container>
+          </div>
+        </ng-container>
+        
+        <!-- Closing bracket -->
+        <div class="bracket-line">
+          <span class="bracket">{{getBracket(node.type, false)}}</span>
+        </div>
+      </div>
+    </ng-container>
+    
+    <!-- Primitive values -->
+    <ng-container *ngIf="node.type !== 'object' && node.type !== 'array'">
+      <span [class]="node.type">
+        <ng-container [ngSwitch]="node.type">
+          <span *ngSwitchCase="'string'">"{{node.value}}"</span>
+          <span *ngSwitchCase="'null'">null</span>
+          <span *ngSwitchCase="'boolean'">{{node.value ? 'true' : 'false'}}</span>
+          <span *ngSwitchDefault>{{node.value}}</span>
+        </ng-container>
+      </span>
+      <span *ngIf="!isLast && (node.type === 'string' || node.type === 'number' || node.type === 'boolean' || node.type === 'null')" class="comma">,</span>
+    </ng-container>
+  </div>
+</ng-template>

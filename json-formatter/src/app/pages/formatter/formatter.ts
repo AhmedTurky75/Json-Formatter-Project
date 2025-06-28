@@ -9,6 +9,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { JsonTreeView } from '../../components/json-tree-view/json-tree-view';
+import { JsonViewerComponent } from '../../components/json-viewer/json-viewer';
 import * as xmljs from 'xml-js';
 import * as yaml from 'js-yaml';
 import JsonToCSV from 'json-to-csv-export';
@@ -27,7 +28,8 @@ type OutputFormat = 'json' | 'xml' | 'yaml' | 'csv';
     MatTooltipModule,
     MatMenuModule,
     MatTabsModule,
-    JsonTreeView
+    JsonTreeView,
+    JsonViewerComponent
   ],
   templateUrl: './formatter.html',
   styleUrls: ['./formatter.scss']
@@ -40,6 +42,7 @@ export class Formatter implements OnInit, OnDestroy {
   jsonOutput: string = '';
   convertedOutput: string = '';
   currentFormat: OutputFormat = 'json';
+  viewMode: 'raw' | 'tree' | 'viewer' = 'raw';
   isTreeView: boolean = false;
   isMinified: boolean = false;
   parsedOutput: any = null;
@@ -65,23 +68,31 @@ export class Formatter implements OnInit, OnDestroy {
 
   formatJson() {
     try {
+      // First set the view mode to viewer to ensure it switches to the JSON viewer
+      this.viewMode = 'viewer';
+      
+      // Parse and format the JSON
       const parsed = JSON.parse(this.jsonInput);
       // Create a new reference to trigger change detection
       this.parsedOutput = JSON.parse(JSON.stringify(parsed));
       this.jsonOutput = JSON.stringify(parsed, null, 2);
       this.error = null;
-      this.isTreeView = false;
       this.isMinified = false;
       this.convertedOutput = ''; // Clear any previous conversion
       this.currentFormat = 'json';
       
-      // Highlight the code after the view updates
+      // Force change detection and update the view
       this.cdr.detectChanges();
-      this.highlightCode();
+      
+      // Highlight the code after the view updates
+      setTimeout(() => {
+        this.highlightCode();
+      });
     } catch (error) {
       this.error = 'Invalid JSON. Please check your input.';
       this.jsonOutput = '';
       this.parsedOutput = null;
+      this.viewMode = 'raw'; // Switch to raw view on error
       this.showError(this.error);
     }
   }
@@ -95,13 +106,13 @@ export class Formatter implements OnInit, OnDestroy {
       this.parsedOutput = JSON.parse(JSON.stringify(parsed));
       this.jsonOutput = JSON.stringify(parsed);
       this.error = null;
-      this.isTreeView = false;
+      this.viewMode = 'raw';
       this.isMinified = true;
       this.convertedOutput = ''; // Clear any previous conversion
       
-      // Highlight the code after the view updates
-      this.cdr.detectChanges();
-      this.highlightCode();
+      // // Highlight the code after the view updates
+      // this.cdr.detectChanges();
+      // this.highlightCode();
     } catch (error) {
       this.error = 'Invalid JSON. Please check your input.';
       this.jsonOutput = '';
@@ -163,9 +174,17 @@ export class Formatter implements OnInit, OnDestroy {
 
   toggleView() {
     if (this.parsedOutput) {
-      this.isTreeView = !this.isTreeView;
-      // If switching to tree view, make sure we have parsed output
-      if (this.isTreeView && !this.parsedOutput && this.jsonInput) {
+      // Cycle through view modes: raw -> tree -> viewer -> raw
+      if (this.viewMode === 'raw') {
+        this.viewMode = 'tree';
+      } else if (this.viewMode === 'tree') {
+        this.viewMode = 'viewer';
+      } else {
+        this.viewMode = 'raw';
+      }
+
+      // If switching to tree or viewer view, make sure we have parsed output
+      if ((this.viewMode === 'tree' || this.viewMode === 'viewer') && !this.parsedOutput && this.jsonInput) {
         try {
           this.parsedOutput = JSON.parse(this.jsonInput);
         } catch (e) {
@@ -173,8 +192,9 @@ export class Formatter implements OnInit, OnDestroy {
         }
       }
     }
-    if (!this.isTreeView && this.prismInitialized) {
-      // Re-highlight code when switching back to code view
+    
+    // Re-highlight code when switching back to raw view
+    if (this.viewMode === 'raw' && this.prismInitialized) {
       setTimeout(() => this.highlightCode(), 0);
     }
   }
@@ -187,7 +207,7 @@ export class Formatter implements OnInit, OnDestroy {
       this.currentFormat = 'xml';
       this.isMinified = false;
       this.isTreeView = false;
-
+      this.viewMode = 'raw';
       this.error = null;
       this.conversionError = null;
       console.log(this.convertedOutput);
@@ -208,7 +228,7 @@ export class Formatter implements OnInit, OnDestroy {
       this.error = null;
       this.conversionError = null;
       this.isTreeView = false;
-
+      this.viewMode = 'raw';
       console.log(this.convertedOutput);
       this.cdr.detectChanges();
       this.highlightConvertedCode();

@@ -34,9 +34,19 @@
           <mat-icon>format_indent_decrease</mat-icon>
           Minify
         </button>
-        <button mat-raised-button (click)="toggleView()" [disabled]="!jsonOutput">
-          <mat-icon>{{ isTreeView ? 'code' : 'account_tree' }}</mat-icon>
-          {{ isTreeView ? 'Raw View' : 'Tree View' }}
+        <button mat-raised-button (click)="toggleView()" [disabled]="!jsonOutput" matTooltip="Toggle between Raw, Tree, and JSON Viewer">
+          <mat-icon>
+            <ng-container [ngSwitch]="viewMode">
+              <span *ngSwitchCase="'raw'">code</span>
+              <span *ngSwitchCase="'tree'">account_tree</span>
+              <span *ngSwitchCase="'viewer'">visibility</span>
+            </ng-container>
+          </mat-icon>
+          <ng-container [ngSwitch]="viewMode">
+            <span *ngSwitchCase="'raw'">Tree View</span>
+            <span *ngSwitchCase="'tree'">JSON Viewer</span>
+            <span *ngSwitchCase="'viewer'">Raw View</span>
+          </ng-container>
         </button>
         <div class="divider"></div>
         <button mat-raised-button (click)="convertToXml()" [disabled]="!jsonInput">
@@ -77,8 +87,15 @@
         }
 
         <!-- Tree View -->
-        @else if (isTreeView) {
+        @if (viewMode === 'tree') {
           <app-json-tree-view [json]="parsedOutput" class="tree-view"></app-json-tree-view>
+        }
+        
+        <!-- JSON Viewer -->
+        @else if (viewMode === 'viewer') {
+          <div class="json-viewer-container">
+            <app-json-viewer [json]="parsedOutput" [expanded]="true"></app-json-viewer>
+          </div>
         }
 
         <!-- Converted Output (XML/YAML/CSV) -->
@@ -108,9 +125,7 @@
         <!-- JSON Output -->
         @else if (jsonOutput) {
           <div class="output-wrapper">
-
-
-            <div class="output-content">
+            <div class="output-content" [class.minified-container]="isMinified">
               @if (isMinified) {
                 <pre class="minified-json">{{ jsonOutput }}</pre>
               } @else {
