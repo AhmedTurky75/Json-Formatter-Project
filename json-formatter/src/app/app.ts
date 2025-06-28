@@ -8,6 +8,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ThemeToggle } from './components/theme-toggle/theme-toggle';
 import { Header } from './components/header/header';
+import { FooterComponent } from './shared/components/footer/footer.component';
 import { ThemeService } from './services/theme';
 
 // Import Prism.js
@@ -34,7 +35,8 @@ import 'prismjs/themes/prism-tomorrow.css'; // Dark theme
     MatCardModule,
     MatSnackBarModule,
     ThemeToggle,
-    Header
+    Header,
+    FooterComponent
   ],
   templateUrl: './app.html',
   styles: [`

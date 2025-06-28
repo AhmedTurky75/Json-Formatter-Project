@@ -387,18 +387,6 @@ a {
   }
 }
 
-/* Footer */
-.app-footer {
-  background-color: var(--color-surface);
-  color: var(--color-text-secondary);
-  padding: var(--spacing-md) 0;
-  margin-top: auto;
-  font-size: 0.875rem;
-  text-align: center;
-  border-top: 1px solid var(--color-border);
-  transition: background-color var(--transition-normal), border-color var(--transition-normal);
-}
-
 /* Responsive adjustments */
 @media (max-width: 768px) {
   html {
