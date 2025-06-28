@@ -37,16 +37,14 @@
         <button mat-raised-button 
                 [color]="viewMode === 'tree' ? 'primary' : ''" 
                 (click)="setViewMode('tree')" 
-                [disabled]="!jsonOutput" 
-                matTooltip="Switch to Tree View">
+                [disabled]="!jsonOutput">
           <mat-icon>account_tree</mat-icon>
           <span>Tree View</span>
         </button>
         <button mat-raised-button 
                 [color]="viewMode === 'raw' ? 'primary' : ''" 
                 (click)="setViewMode('raw')" 
-                [disabled]="!jsonOutput" 
-                matTooltip="Switch to Raw JSON">
+                [disabled]="!jsonOutput">
           <mat-icon>code</mat-icon>
           <span>Raw JSON</span>
         </button>
