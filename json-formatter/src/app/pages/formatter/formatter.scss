@@ -165,26 +165,89 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   height: 100%;
+  border: 1px solid var(--border-color);
 
   h3 {
     margin: 0;
-    padding: 1rem 1.25rem;
-    background: var(--header-bg);
+    padding: 0.75rem 1.25rem;
+    background-color: rgba(33, 150, 243, 0.1);
+    border-radius: 4px 4px 0 0;
+    border-bottom: 1px solid rgba(33, 150, 243, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     color: var(--text-primary);
     font-size: 1.1rem;
-    font-weight: 500;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    font-weight: 600;
+    
+    &::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 1.2em;
+      background: var(--primary-color);
+      border-radius: 3px;
+    }
+  }
+  
+  // Different colors for input section
+  &:first-child h3::before {
+    background: var(--color-primary); // Primary color for input
+  }
+  
+  // Different colors for output section
+  &:last-child h3::before {
+    background: var(--color-info); // Info color for output
   }
 }
 
-.input-actions,
+// Input actions styling
+.input-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background-color: rgba(33, 150, 243, 0.1);
+  border-bottom: 1px solid rgba(33, 150, 243, 0.2);
+  border-radius: 4px 4px 0 0;
+  
+  button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: var(--primary-color);
+    }
+
+    mat-icon {
+      font-size: 1.1rem;
+      width: 1.1rem;
+      height: 1.1rem;
+    }
+  }
+}
+
+// Output actions styling
 .output-actions {
   display: flex;
   justify-content: flex-end;
   gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  background: var(--toolbar-bg);
-  border-bottom: 1px solid var(--border-color);
+  padding: 0.75rem 1.25rem;
+  background-color: rgba(33, 150, 243, 0.1);
+  border-bottom: 1px solid rgba(33, 150, 243, 0.2);
+  border-radius: 4px 4px 0 0;
+  
+  button {
+    color: #1565c0;
+    
+    &:hover {
+      background-color: rgba(33, 150, 243, 0.15);
+    }
+  }
 
   button {
     display: flex;
