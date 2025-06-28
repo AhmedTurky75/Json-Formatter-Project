@@ -47,14 +47,12 @@
 }
 
 .children {
-  margin-left: 24px;
   position: relative;
   display: block;
-  
-  /* Add a subtle border on the left to show nesting */
-  border-left: 1px solid var(--border-color, #e0e0e0);
-  padding-left: 12px;
   margin-left: 12px;
+  max-height: 100%;
+  overflow: visible;
+  border-left: 1px solid var(--border-color, #e0e0e0);
 }
 
 .bracket-line {
@@ -140,21 +138,7 @@
   user-select: none;
 }
 
-.children {
-  margin-left: 24px;
-  position: relative;
-  max-height: 100%;
-  overflow: visible;
-  
-  /* Add a subtle border on the left to show nesting */
-  border-left: 1px solid var(--border-color, #e0e0e0);
-  padding-left: 12px;
-  margin-left: 12px;
-}
 
-.bracket-line {
-  display: block;
-}
 
 .empty {
   color: var(--text-secondary);

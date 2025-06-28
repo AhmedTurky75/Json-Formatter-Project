@@ -41,12 +41,8 @@
             <ng-container *ngTemplateOutlet="jsonNode; context: { $implicit: child, isRoot: false, isLast: last, parentType: node.type }"></ng-container>
           </div>
         </ng-container>
-        
         <!-- Closing bracket -->
-        <div class="bracket-line">
-          <span class="bracket">{{getBracket(node.type, false)}}</span>
-          <span *ngIf="!isLast" class="comma">,</span>
-        </div>
+        <div class="bracket-line"><span class="bracket">{{getBracket(node.type, false)}}</span><span *ngIf="!isLast" class="comma">,</span></div>
       </div>
     </ng-container>
     
@@ -59,8 +55,7 @@
           <span *ngSwitchCase="'boolean'">{{node.value ? 'true' : 'false'}}</span>
           <span *ngSwitchDefault>{{node.value}}</span>
         </ng-container>
-      </span>
-      <span *ngIf="!isLast" class="comma">,</span>
+      </span><span *ngIf="!isLast" class="comma">,</span>
     </ng-container>
   </div>
 </ng-template>
