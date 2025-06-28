@@ -12,7 +12,7 @@ export class ThemeService {
   private injector = inject(Injector);
   
   // Signal to track the current theme preference
-  private themePreference = signal<Theme>('system');
+  private themePreference = signal<Theme>('dark');
   
   // Signal to track the current actual theme mode (light/dark)
   private currentMode = signal<ThemeMode>('light');

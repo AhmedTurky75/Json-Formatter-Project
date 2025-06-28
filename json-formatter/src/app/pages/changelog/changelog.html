@@ -1,0 +1,112 @@
+<div class="changelog-container">
+  <div class="header">
+    <div class="header-content">
+      <h1>Changelog</h1>
+      <p class="subtitle">All notable changes to JSON Formatter will be documented in this file.</p>
+      
+      <div class="current-version" *ngIf="latestVersion">
+        <div class="version-badge">
+          <span class="version">{{ formatVersion(latestVersion.version) }}</span>
+          <span class="label" [class.latest]="isCurrentVersion(latestVersion.version)">
+            {{ isCurrentVersion(latestVersion.version) ? 'Latest' : 'Previous' }}
+          </span>
+        </div>
+        <div class="version-details">
+          <div class="version-date">
+            <mat-icon>event</mat-icon>
+            <span>{{ latestVersion.date }}</span>
+            <span class="days-ago" *ngIf="getDaysSinceRelease(latestVersion.date) > 0">
+              ({{ getDaysSinceRelease(latestVersion.date) }} days ago)
+            </span>
+          </div>
+          <div class="version-highlights">
+            <h3>Highlights</h3>
+            <ul>
+              <li *ngFor="let highlight of latestVersion.highlights">{{ highlight }}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="changelog-content">
+    <div class="version-list">
+      <div *ngFor="let version of versions; let i = index" class="version-item" 
+           [class.current-version]="isCurrentVersion(version.version)">
+        
+        <div class="version-header">
+          <h2 class="version-title">
+            <a [id]="'v' + version.version" class="version-anchor">
+              {{ formatVersion(version.version) }}
+            </a>
+            <span class="version-date">{{ version.date }}</span>
+            <span *ngIf="isCurrentVersion(version.version)" class="current-tag">Current Version</span>
+          </h2>
+          <a [routerLink]="['/changelog']" [fragment]="'v' + version.version" class="permalink" 
+             mat-icon-button matTooltip="Copy link to this version">
+            <mat-icon>link</mat-icon>
+          </a>
+        </div>
+
+        <div class="version-body">
+          <!-- Highlights -->
+          <div class="changelog-section" *ngIf="version.highlights && version.highlights.length">
+            <h3>Highlights</h3>
+            <ul>
+              <li *ngFor="let item of version.highlights">{{ item }}</li>
+            </ul>
+          </div>
+
+          <!-- New Features -->
+          <div class="changelog-section" *ngIf="hasSection(version, 'newFeatures')">
+            <h3>✨ New Features</h3>
+            <ul>
+              <li *ngFor="let item of version.newFeatures">{{ item }}</li>
+            </ul>
+          </div>
+
+          <!-- Improvements -->
+          <div class="changelog-section" *ngIf="hasSection(version, 'improvements')">
+            <h3>🚀 Improvements</h3>
+            <ul>
+              <li *ngFor="let item of version.improvements">{{ item }}</li>
+            </ul>
+          </div>
+
+          <!-- Fixes -->
+          <div class="changelog-section" *ngIf="hasSection(version, 'fixes')">
+            <h3>🐛 Bug Fixes</h3>
+            <ul>
+              <li *ngFor="let item of version.fixes">{{ item }}</li>
+            </ul>
+          </div>
+
+          <!-- Breaking Changes -->
+          <div class="changelog-section warning" *ngIf="hasSection(version, 'breakingChanges')">
+            <h3>⚠️ Breaking Changes</h3>
+            <ul>
+              <li *ngFor="let item of version.breakingChanges">{{ item }}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar">
+      <div class="sidebar-section">
+        <h3>Versions</h3>
+        <div class="version-links">
+          <a *ngFor="let version of versions" 
+             [routerLink]="['/changelog']" 
+             [fragment]="'v' + version.version"
+             [class.active]="isCurrentVersion(version.version)"
+             class="version-link">
+            {{ formatVersion(version.version) }}
+            <span class="version-date">{{ version.date }}</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,36 @@
+# Allow all web crawlers to access all parts of the site
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://jsonformatter.example.com/sitemap.xml
+
+# Crawl-delay parameter to limit the request rate (requests per second)
+# Adjust this value based on your server's capacity
+Crawl-delay: 10
+
+# Disallow access to admin and API endpoints
+Disallow: /admin/
+Disallow: /api/
+
+# Disallow access to source code and configuration files
+Disallow: /src/
+Disallow: /e2e/
+Disallow: /node_modules/
+
+# Allow all static assets
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.png$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.gif$
+Allow: /*.svg$
+Allow: /*.ico$
+Allow: /*.woff$
+Allow: /*.woff2$
+Allow: /*.ttf$
+Allow: /*.eot$
+
+# Host
+Host: jsonformatter.example.com

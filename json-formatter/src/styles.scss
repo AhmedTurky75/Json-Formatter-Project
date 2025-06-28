@@ -4,16 +4,20 @@
 
 :root {
   --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 248, 250, 252;
-  --background-end-rgb: 255, 255, 255;
+  --background-start-rgb: 248, 250, 252;  /* Light blue-gray */
+  --background-end-rgb: 255, 255, 255;   /* White */
+  --code-bg: rgba(241, 245, 249, 0.8);   /* Light gray for code blocks */
+  --card-bg: rgba(255, 255, 255, 0.9);   /* White with slight transparency */
+  --border-color: rgba(203, 213, 225, 0.5); /* Light gray border */
 }
 
 .dark {
-  --foreground-rgb: 255, 255, 255;
-  --background-start-rgb: 15, 23, 42;
-  --background-end-rgb: 2, 6, 23;
-  --code-bg: rgba(30, 41, 59, 0.8);
-  --card-bg: rgba(15, 23, 42, 0.9);
+  --foreground-rgb: 255, 255, 255;       /* White text */
+  --background-start-rgb: 15, 23, 42;     /* Dark blue */
+  --background-end-rgb: 2, 6, 23;         /* Darker blue */
+  --code-bg: rgba(30, 41, 59, 0.8);       /* Dark blue-gray */
+  --card-bg: rgba(15, 23, 42, 0.9);       /* Semi-transparent dark blue */
+  --border-color: rgba(30, 41, 59, 0.5);  /* Dark border */
 }
 
 html, body {
@@ -25,12 +29,34 @@ html, body {
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background-color: rgb(var(--background-start-rgb));
+  min-height: 100vh;
+  
+  &::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('assets/images/JsonBackground.png');
+    background-size: 300px;
+    background-repeat: repeat;
+    opacity: 1;  /* Full opacity in light mode */
+    z-index: -1;
+    pointer-events: none;
+  }
+  
+  /* Dark mode specific background */
+  .dark &::before {
+    opacity: 0.08;  /* Slightly transparent in dark mode */
+  }
+
+  /* Ensure content is above the background */
+  > * {
+    position: relative;
+    z-index: 1;
+  }
 }
 
 /* JSON Syntax Highlighting */
@@ -131,6 +157,67 @@ body {
   /* Adjust card backgrounds */
   .mat-mdc-card {
     background-color: var(--card-bg) !important;
+  }
+  
+  /* Global button overrides for dark mode */
+  .mat-mdc-raised-button:not(:disabled) {
+    background-color: #334155 !important;
+    color: #f1f5f9 !important;
+    border: 1px solid #475569 !important;
+  }
+  
+  .mat-mdc-raised-button.mat-primary:not(:disabled) {
+    background-color: #3f51b5 !important;
+  }
+  
+  .mat-mdc-raised-button.mat-accent:not(:disabled) {
+    background-color: #0d9488 !important;
+  }
+}
+
+/* Global button styles */
+.mat-mdc-raised-button:not(:disabled) {
+  background-color: #e2e8f0 !important;
+  color: #1e293b !important;
+  border: 1px solid #cbd5e1 !important;
+  
+  &:hover {
+    background-color: #cbd5e1 !important;
+  }
+}
+
+.mat-mdc-raised-button.mat-primary:not(:disabled) {
+  background-color: #3f51b5 !important;
+  color: white !important;
+  
+  &:hover {
+    background-color: #303f9f !important;
+  }
+}
+
+.mat-mdc-raised-button.mat-accent:not(:disabled) {
+  background-color: #0d9488 !important;
+  color: white !important;
+  
+  &:hover {
+    background-color: #0f766e !important;
+  }
+}
+
+/* Formatter action buttons */
+.formatter-container {
+  .action-buttons {
+    button[mat-raised-button] {
+      width: 100%;
+      margin-bottom: 8px;
+      text-align: left;
+      padding: 0 16px;
+      border-radius: 4px;
+      
+      mat-icon {
+        margin-right: 8px;
+      }
+    }
   }
 }
 
@@ -248,6 +335,22 @@ pre {
       }
     }
   }
+}
+
+/* FAQ Panel Title Styles */
+.mat-expansion-panel-header-title {
+  font-weight: 700 !important;
+  font-size: 1.25rem !important;
+  
+  mat-panel-title {
+    font-size: inherit !important;
+    font-weight: inherit !important;
+  }
+}
+
+/* Dark mode overrides for FAQ panel title */
+.dark-theme .mat-expansion-panel-header-title {
+  color: var(--text-color) !important;
 }
 
 /* Custom scrollbar for dark mode */

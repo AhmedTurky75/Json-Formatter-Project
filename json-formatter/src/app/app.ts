@@ -40,50 +40,45 @@ import 'prismjs/themes/prism-tomorrow.css'; // Dark theme
   ],
   templateUrl: './app.html',
   styles: [`
-    /* Enhanced styles for code blocks */
-    pre[class*="language-"] {
-      margin: 0;
-      border-radius: 0;
-      overflow: auto;
-      background: transparent !important;
-      position: relative;
+    :host {
+      --header-height: 64px;
+      display: block;
+      min-height: 100vh;
     }
-    
-    /* Line numbers styling */
-    pre.line-numbers {
-      position: relative;
-      padding-left: 3.8em;
-      counter-reset: linenumber;
+
+    .app-container {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
     }
-    
-    pre.line-numbers > code {
-      position: relative;
-      white-space: inherit;
-    }
-    
-    .line-numbers .line-numbers-rows {
-      position: absolute;
-      pointer-events: none;
+
+    .app-header-container {
+      position: fixed;
       top: 0;
-      font-size: 100%;
-      left: -3.8em;
-      width: 3em; /* Works for line-numbers below 1000 lines */
-      letter-spacing: -1px;
-      border-right: 1px solid #999;
-      user-select: none;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
-    
-    .line-numbers-rows > span {
-      display: block;
-      counter-increment: linenumber;
+
+    .content-wrapper {
+      flex: 1;
+      margin-top: var(--header-height);
+      min-height: calc(100vh - var(--header-height));
+      display: flex;
+      flex-direction: column;
     }
-    
-    .line-numbers-rows > span:before {
-      content: counter(linenumber);
-      color: #999;
-      display: block;
-      padding-right: 0.8em;
-      text-align: right;
+
+    .app-main {
+      flex: 1;
+      padding: 1rem;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 0 1rem;
     }
   `]
 })
@@ -107,7 +102,7 @@ export class App implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      this.showWelcomeMessage();
+      // this.showWelcomeMessage();
       // Set initial theme - ThemeService already handles this in its constructor
       
       // Subscribe to theme changes

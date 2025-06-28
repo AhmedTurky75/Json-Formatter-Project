@@ -1,0 +1,51 @@
+<div class="about-container">
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>About JSON Formatter</h1>
+      <p class="subtitle">A powerful, free online tool for formatting, validating, and working with JSON data</p>
+      <div class="cta-buttons">
+        <a mat-raised-button color="primary" routerLink="/" class="cta-button">
+          <mat-icon>play_arrow</mat-icon>
+          Try It Now
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features">
+    <h2>Why Choose Our JSON Formatter?</h2>
+    <p class="section-description">Experience the difference with our feature-rich JSON tool</p>
+    
+    <div class="features-grid">
+      <div class="feature-card" *ngFor="let feature of features">
+        <div class="feature-icon">
+          <mat-icon>{{feature.icon}}</mat-icon>
+        </div>
+        <h3>{{feature.title}}</h3>
+        <p>{{feature.description}}</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Stats Section -->
+  <section class="stats">
+    <div class="stat-item" *ngFor="let stat of stats">
+      <div class="stat-value">{{stat.value}}</div>
+      <div class="stat-label">{{stat.label}}</div>
+    </div>
+  </section>
+
+
+  <!-- CTA Section -->
+  <section class="cta">
+    <h2>Ready to Format Your JSON?</h2>
+    <p>Try our JSON Formatter now and experience the difference for yourself.</p>
+    <a mat-raised-button color="primary" routerLink="/" class="cta-button">
+      <mat-icon>play_arrow</mat-icon>
+      Get Started
+    </a>
+  </section>
+</div>

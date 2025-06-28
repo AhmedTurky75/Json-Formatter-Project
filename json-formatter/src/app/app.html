@@ -1,14 +1,18 @@
 <div class="app-container">
-  <!-- Header -->
-  <app-header [title]="title"></app-header>
+  <!-- Fixed Header -->
+  <header class="app-header-container">
+    <app-header [title]="title"></app-header>
+  </header>
 
-  <!-- Main Content -->
-  <main class="app-main">
-    <div class="container">
-      <router-outlet></router-outlet>
-    </div>
-  </main>
+  <!-- Scrollable Content -->
+  <div class="content-wrapper">
+    <main class="app-main">
+      <div class="container">
+        <router-outlet></router-outlet>
+      </div>
+    </main>
 
-  <!-- Footer -->
-  <app-footer></app-footer>
+    <!-- Footer -->
+    <app-footer></app-footer>
+  </div>
 </div>

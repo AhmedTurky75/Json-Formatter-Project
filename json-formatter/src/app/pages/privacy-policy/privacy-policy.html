@@ -1,0 +1,38 @@
+<div class="privacy-policy">
+  <div class="container">
+    <div class="header">
+      <h1>Privacy Policy</h1>
+      <p class="last-updated">Last updated: {{ lastUpdated }}</p>
+      <p class="intro">
+        This Privacy Policy explains how we handle your information when you use JSON Formatter.
+        Please read this policy carefully to understand our practices regarding your data.
+      </p>
+    </div>
+
+    <div class="content-container">
+      <!-- Table of Contents -->
+      <div class="table-of-contents">
+        <h2>Table of Contents</h2>
+        <ul>
+          <li *ngFor="let section of sections">
+            <a (click)="scrollTo(section.id)" class="toc-link">{{ section.title }}</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Main Content -->
+      <div class="policy-content">
+        <section *ngFor="let section of sections" [id]="section.id" class="policy-section">
+          <h2>{{ section.title }}</h2>
+          <div class="section-content">
+            <p *ngFor="let paragraph of section.content" [innerHTML]="paragraph"></p>
+          </div>
+        </section>
+
+        <div class="effective-date">
+          <p><strong>Effective Date:</strong> {{ lastUpdated }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

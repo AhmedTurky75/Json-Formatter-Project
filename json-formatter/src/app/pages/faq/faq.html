@@ -1,0 +1,29 @@
+<div class="faq-container">
+  <div class="header">
+    <h1>Frequently Asked Questions</h1>
+    <p>Find answers to common questions about our JSON Formatter tool.</p>
+  </div>
+  
+  <!-- <div class="search-container">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Search questions...</mat-label>
+      <input matInput (keyup)="filterFAQs($event)" #searchInput>
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+  </div> -->
+
+  <mat-accordion class="faq-accordion" displayMode="flat" multi>
+    <mat-expansion-panel *ngFor="let item of filteredFaqItems; let i = index" 
+                         [expanded]="expandedIndex === i"
+                         (opened)="expandedIndex = i">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{ item.question }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="faq-answer" [innerHTML]="item.answer"></div>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+
+</div>
