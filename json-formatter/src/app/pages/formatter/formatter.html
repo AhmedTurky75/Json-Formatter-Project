@@ -101,8 +101,6 @@
         <!-- Converted Output (XML/YAML/CSV) -->
         @else if (convertedOutput) {
           <div class="output-wrapper">
-
-            
             @if (conversionError) {
               <div class="error-message">
                 <mat-icon>error_outline</mat-icon>
@@ -114,9 +112,7 @@
               @if (currentFormat === 'csv') {
                 <pre class="csv-output">{{ convertedOutput }}</pre>
               } @else {
-                <pre class="language-{{ currentFormat }}">
-                  <code class="language-{{ currentFormat }}">{{ convertedOutput }}</code>
-                </pre>
+                <pre class="language-{{ currentFormat }}"><code class="language-{{ currentFormat }}">{{ convertedOutput }}</code></pre>
               }
             </div>
           </div>

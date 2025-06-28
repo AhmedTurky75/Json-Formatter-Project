@@ -312,14 +312,8 @@ export class Formatter implements OnInit, OnDestroy {
       // Create a temporary element to hold the CSV data
       const tempDiv = document.createElement('div');
       
-      // Use the JsonToCSV function to handle the conversion
-      JsonToCSV({
-        data: flattenedData,
-        filename: 'converted',
-        delimiter: ','
-      });
-      
-      // Since the package doesn't return the CSV string, we'll generate it manually
+      // Generate the CSV content directly without triggering download
+      let csvContent = '';
       if (flattenedData.length > 0) {
         const headers = Object.keys(flattenedData[0]);
         const csvRows = [
@@ -330,7 +324,8 @@ export class Formatter implements OnInit, OnDestroy {
             ).join(',')
           )
         ];
-        this.convertedOutput = csvRows.join('\n');
+        csvContent = csvRows.join('\n');
+        this.convertedOutput = csvContent;
       } else {
         this.convertedOutput = '';
       }
@@ -338,6 +333,7 @@ export class Formatter implements OnInit, OnDestroy {
       this.currentFormat = 'csv';
       this.isMinified = false;
       this.conversionError = null;
+      this.viewMode = 'raw';
       this.isTreeView = false;
       this.cdr.detectChanges();
       this.highlightConvertedCode();
