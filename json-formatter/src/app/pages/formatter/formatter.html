@@ -35,14 +35,12 @@
           Minify
         </button>
         <button mat-raised-button 
-                [color]="viewMode === 'tree' ? 'primary' : ''" 
                 (click)="setViewMode('tree')" 
                 [disabled]="!jsonOutput">
           <mat-icon>account_tree</mat-icon>
           <span>Tree View</span>
         </button>
         <button mat-raised-button 
-                [color]="viewMode === 'raw' ? 'primary' : ''" 
                 (click)="setViewMode('raw')" 
                 [disabled]="!jsonOutput">
           <mat-icon>code</mat-icon>
