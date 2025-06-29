@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy, inject, PLATFORM_ID, Inject, effect, runInInjectionContext, Injector } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { RouterModule, RouterOutlet } from '@angular/router';
+import { Router, RouterModule, RouterOutlet, NavigationEnd, ActivatedRoute } from '@angular/router';
+import { Meta, Title } from '@angular/platform-browser';
+import { filter, map, mergeMap } from 'rxjs/operators';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -83,11 +85,15 @@ import 'prismjs/themes/prism-tomorrow.css'; // Dark theme
 })
 export class App implements OnInit, OnDestroy {
   private prismLoaded = false;
-  title = 'JSON Formatter';
+  title = 'Lite JSON Formatter';
   currentYear: number;
   private readonly themeService = inject(ThemeService);
   private readonly snackBar = inject(MatSnackBar);
   private injector = inject(Injector);
+  private router = inject(Router);
+  private activatedRoute = inject(ActivatedRoute);
+  private meta = inject(Meta);
+  private titleService = inject(Title);
   
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {
     this.currentYear = new Date().getFullYear();
@@ -101,8 +107,8 @@ export class App implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      // this.showWelcomeMessage();
-      // Set initial theme - ThemeService already handles this in its constructor
+      // Set up route change subscription for SEO updates
+      this.setupRouteChangeHandling();
       
       // Subscribe to theme changes
       runInInjectionContext(this.injector, () => {
@@ -119,6 +125,49 @@ export class App implements OnInit, OnDestroy {
         setTimeout(() => this.highlightAllCode(), 100);
       }
     }
+  }
+
+  private setupRouteChangeHandling(): void {
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd),
+      map(() => this.activatedRoute),
+      map(route => {
+        while (route.firstChild) route = route.firstChild;
+        return route;
+      }),
+      filter(route => route.outlet === 'primary'),
+      mergeMap(route => route.data)
+    ).subscribe((data: any) => {
+      // Update page title
+      const title = data['title'] || 'Lite JSON Formatter - Format, Validate & Convert JSON Online';
+      this.titleService.setTitle(title);
+      
+      // Update meta tags
+      const description = data['description'] || 'Free online JSON formatter, validator, and converter. Beautify, minify, and convert JSON with our easy-to-use tool.';
+      const keywords = data['keywords'] || 'JSON formatter, JSON validator, JSON to XML, JSON to YAML, JSON to CSV, format JSON, minify JSON, online JSON tool';
+      
+      this.meta.updateTag({ name: 'description', content: description });
+      this.meta.updateTag({ name: 'keywords', content: keywords });
+      
+      // Update Open Graph tags
+      this.meta.updateTag({ property: 'og:title', content: title });
+      this.meta.updateTag({ property: 'og:description', content: description });
+      this.meta.updateTag({ property: 'og:url', content: window.location.href });
+      
+      // Update Twitter Card tags
+      this.meta.updateTag({ name: 'twitter:title', content: title });
+      this.meta.updateTag({ name: 'twitter:description', content: description });
+      
+      // Handle 404 redirects
+      if (data['notFound']) {
+        // Optionally show a 404 message or redirect to a dedicated 404 page
+        this.snackBar.open('Page not found. Redirected to homepage.', 'Dismiss', {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top'
+        });
+      }
+    });
   }
 
   private initializeTheme(): void {

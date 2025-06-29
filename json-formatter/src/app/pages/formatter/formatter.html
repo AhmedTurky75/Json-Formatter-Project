@@ -1,144 +1,239 @@
-<div class="formatter-container">
-
-
+<section class="formatter-container" aria-label="JSON Formatter Tool">
+  <h1 class="sr-only">Lite JSON Formatter</h1>
+  
   <div class="editor-container">
     <!-- Input Section -->
-    <div class="editor-section">
-      <h3>Input JSON</h3>
-      <div class="input-actions">
-        <button mat-button (click)="loadSample()">
-          <mat-icon>description</mat-icon>
-          Load Sample
-        </button>
-        <button mat-button (click)="clearInput()">
-          <mat-icon>clear</mat-icon>
-          Clear
-        </button>
+    <section class="editor-section" aria-labelledby="input-section-heading">
+      <div class="section-header">
+        <h2 id="input-section-heading">
+          <mat-icon aria-hidden="true">input</mat-icon>
+          Input JSON
+        </h2>
+        <div class="input-actions" aria-label="Input actions">
+          <button mat-button (click)="loadSample()" aria-label="Load sample JSON">
+            <mat-icon aria-hidden="true">description</mat-icon>
+            <span>Load Sample</span>
+          </button>
+          <button mat-button (click)="clearInput()" aria-label="Clear input">
+            <mat-icon aria-hidden="true">clear</mat-icon>
+            <span>Clear</span>
+          </button>
+        </div>
       </div>
+      
+      <label for="jsonInput" class="sr-only">JSON Input</label>
       <textarea
+        id="jsonInput"
         class="json-input"
         [(ngModel)]="jsonInput"
         placeholder="Paste your JSON here or use the 'Load Sample' button"
         spellcheck="false"
+        aria-describedby="inputHelp"
       ></textarea>
-    </div>
+      <p id="inputHelp" class="help-text">Enter or paste your JSON data in the field above</p>
+    </section>
 
     <!-- Action Buttons Column -->
-    <div class="actions-column">
-      <div class="action-buttons">
-        <button mat-raised-button color="primary" (click)="formatJson()" [disabled]="!jsonInput">
-          <mat-icon>format_indent_increase</mat-icon>
-          Format
-        </button>
-        <button mat-raised-button color="accent" (click)="minifyJson()" [disabled]="!jsonInput">
-          <mat-icon>format_indent_decrease</mat-icon>
-          Minify
-        </button>
-        <button mat-raised-button 
-                (click)="setViewMode('tree')" 
-                [disabled]="!jsonOutput">
-          <mat-icon>account_tree</mat-icon>
-          <span>Tree View</span>
-        </button>
-        <button mat-raised-button 
-                (click)="setViewMode('raw')" 
-                [disabled]="!jsonOutput">
-          <mat-icon>code</mat-icon>
-          <span>Raw JSON</span>
-        </button>
-        <div class="divider"></div>
-        <button mat-raised-button (click)="convertToXml()" [disabled]="!jsonInput">
-          <mat-icon>code</mat-icon>
-          To XML
-        </button>
-        <button mat-raised-button (click)="convertToYaml()" [disabled]="!jsonInput">
-          <mat-icon>code</mat-icon>
-          To YAML
-        </button>
-        <button mat-raised-button (click)="convertToCsv()" [disabled]="!jsonInput">
-          <mat-icon>table_chart</mat-icon>
-          To CSV
-        </button>
-      </div>
-    </div>
+    <aside class="actions-column" aria-label="JSON Actions">
+      <nav class="action-buttons" aria-label="JSON Formatting Actions">
+        <h3 class="sr-only">JSON Tools</h3>
+        
+        <div class="button-group" role="group" aria-label="Formatting options">
+          <button mat-raised-button color="primary" 
+                  (click)="formatJson()" 
+                  [disabled]="!jsonInput"
+                  aria-label="Format JSON">
+            <mat-icon aria-hidden="true">format_indent_increase</mat-icon>
+            <span>Format</span>
+          </button>
+          
+          <button mat-raised-button color="accent" 
+                  (click)="minifyJson()" 
+                  [disabled]="!jsonInput"
+                  aria-label="Minify JSON">
+            <mat-icon aria-hidden="true">format_indent_decrease</mat-icon>
+            <span>Minify</span>
+          </button>
+          
+          <button mat-raised-button 
+                  (click)="validateJson()" 
+                  [disabled]="!jsonInput"
+                  aria-label="Validate JSON">
+            <mat-icon aria-hidden="true">check_circle</mat-icon>
+            <span>Validate</span>
+          </button>
+        </div>
+        
+        <div class="divider" role="separator" aria-hidden="true"></div>
+        
+        <div class="button-group" role="group" aria-label="View options">
+          <button mat-raised-button 
+                  (click)="setViewMode('tree')" 
+                  [disabled]="!jsonOutput"
+                  [class.active]="viewMode === 'tree'"
+                  aria-label="View as tree">
+            <mat-icon aria-hidden="true">account_tree</mat-icon>
+            <span>Tree View</span>
+          </button>
+          
+          <button mat-raised-button 
+                  (click)="setViewMode('raw')" 
+                  [disabled]="!jsonOutput"
+                  [class.active]="viewMode === 'raw'"
+                  aria-label="View as raw JSON">
+            <mat-icon aria-hidden="true">code</mat-icon>
+            <span>Raw JSON</span>
+          </button>
+        </div>
+        
+        <div class="divider" role="separator" aria-hidden="true"></div>
+        
+        <div class="button-group" role="group" aria-label="Conversion options">
+          <button mat-raised-button 
+                  (click)="convertToXml()" 
+                  [disabled]="!jsonInput"
+                  aria-label="Convert to XML">
+            <mat-icon aria-hidden="true">transform</mat-icon>
+            <span>To XML</span>
+          </button>
+          
+          <button mat-raised-button 
+                  (click)="convertToYaml()" 
+                  [disabled]="!jsonInput"
+                  aria-label="Convert to YAML">
+            <mat-icon aria-hidden="true">swap_vert</mat-icon>
+            <span>To YAML</span>
+          </button>
+          
+          <button mat-raised-button 
+                  (click)="convertToCsv()" 
+                  [disabled]="!jsonInput"
+                  aria-label="Convert to CSV">
+            <mat-icon aria-hidden="true">table_chart</mat-icon>
+            <span>To CSV</span>
+          </button>
+        </div>
+        
+        <div class="divider" role="separator" aria-hidden="true"></div>
+        
+        <div class="button-group" role="group" aria-label="Output actions">
+          <button mat-raised-button 
+                  (click)="copyToClipboard()" 
+                  [disabled]="!jsonOutput"
+                  aria-label="Copy to clipboard">
+            <mat-icon aria-hidden="true">content_copy</mat-icon>
+            <span>Copy</span>
+          </button>
+          
+          <button mat-raised-button 
+                  (click)="downloadFile()" 
+                  [disabled]="!jsonOutput"
+                  aria-label="Download file">
+            <mat-icon aria-hidden="true">download</mat-icon>
+            <span>Download</span>
+          </button>
+        </div>
+      </nav>
+    </aside>
 
     <!-- Output Section -->
-    <div class="editor-section">
-      <h3>Formatted JSON</h3>
-      <div class="output-actions">
-        <button mat-button (click)="copyToClipboard()" [disabled]="!jsonOutput">
-          <mat-icon>content_copy</mat-icon>
-          Copy
-        </button>
-        <button mat-button (click)="downloadCurrentContent()" [disabled]="!(jsonOutput || convertedOutput)">
-          <mat-icon>download</mat-icon>
-          Download
-        </button>
+    <section class="editor-section" aria-labelledby="output-section-heading">
+      <div class="section-header">
+        <h2 id="output-section-heading">
+          <mat-icon aria-hidden="true">output</mat-icon>
+          Formatted Output
+        </h2>
+        <div class="output-actions" aria-label="Output actions">
+          <button mat-button 
+                  (click)="copyToClipboard()" 
+                  [disabled]="!jsonOutput"
+                  aria-label="Copy output to clipboard">
+            <mat-icon aria-hidden="true">content_copy</mat-icon>
+            <span>Copy</span>
+          </button>
+          <button mat-button 
+                  (click)="downloadCurrentContent()" 
+                  [disabled]="!(jsonOutput || convertedOutput)"
+                  aria-label="Download output">
+            <mat-icon aria-hidden="true">download</mat-icon>
+            <span>Download</span>
+          </button>
+        </div>
       </div>
-      <div class="output-container">
+
+      <div class="output-container" 
+           [attr.aria-live]="(error || conversionError) ? 'assertive' : 'polite'"
+           [attr.aria-atomic]="true">
+        
         <!-- Error State -->
         @if (error) {
-          <div class="error-message">
-            <mat-icon>error_outline</mat-icon>
-            <span>{{ error }}</span>
+          <div class="error-message" role="alert">
+            <mat-icon aria-hidden="true">error_outline</mat-icon>
+            <span id="error-message">{{ error }}</span>
+          </div>
+        }
+        @else if (conversionError) {
+          <div class="error-message" role="alert">
+            <mat-icon aria-hidden="true">error_outline</mat-icon>
+            <span id="conversion-error-message">{{ conversionError }}</span>
           </div>
         }
 
-        <!-- Tree View -->
-        @if (viewMode === 'tree') {
-          <app-json-tree-view [json]="parsedOutput" class="tree-view"></app-json-tree-view>
-        }
-        
-        <!-- JSON Viewer -->
-        @else if (viewMode === 'viewer') {
-          <div class="json-viewer-container">
-            <app-json-viewer [json]="parsedOutput" [expanded]="true"></app-json-viewer>
-          </div>
-        }
+        <!-- Output Content -->
+        <div class="output-content-wrapper">
+          <!-- Tree View -->
+          @if (viewMode === 'tree') {
+            <div class="tree-view-container" role="region" aria-label="JSON Tree View">
+              <app-json-tree-view [json]="parsedOutput" class="tree-view"></app-json-tree-view>
+            </div>
+          }
+          
+          <!-- JSON Viewer -->
+          @else if (viewMode === 'viewer') {
+            <div class="json-viewer-container" role="region" aria-label="JSON Viewer">
+              <app-json-viewer [json]="parsedOutput" [expanded]="true"></app-json-viewer>
+            </div>
+          }
 
-        <!-- Converted Output (XML/YAML/CSV) -->
-        @else if (convertedOutput) {
-          <div class="output-wrapper">
-            @if (conversionError) {
-              <div class="error-message">
-                <mat-icon>error_outline</mat-icon>
-                <span>{{ conversionError }}</span>
+          <!-- Converted Output (XML/YAML/CSV) -->
+          @else if (convertedOutput) {
+            <div class="converted-output" role="region" [attr.aria-label]="'Converted ' + currentFormat.toUpperCase() + ' output'">
+              <div class="output-content" [attr.data-format]="currentFormat">
+                @if (currentFormat === 'csv') {
+                  <pre class="csv-output" aria-label="CSV output">{{ convertedOutput }}</pre>
+                } @else {
+                  <pre class="language-{{ currentFormat }}" [attr.aria-label]="currentFormat.toUpperCase() + ' output'">
+                    <code class="language-{{ currentFormat }}">{{ convertedOutput }}</code>
+                  </pre>
+                }
               </div>
-            }
-
-            <div class="output-content">
-              @if (currentFormat === 'csv') {
-                <pre class="csv-output">{{ convertedOutput }}</pre>
-              } @else {
-                <pre class="language-{{ currentFormat }}"><code class="language-{{ currentFormat }}">{{ convertedOutput }}</code></pre>
-              }
             </div>
-          </div>
-        }
+          }
 
-        <!-- JSON Output -->
-        @else if (viewMode === 'raw' && jsonOutput) {
-          <div class="output-wrapper">
-            <div class="output-content" [class.minified-container]="isMinified">
-              @if (isMinified) {
-                <pre class="minified-json">{{ minifiedOutput }}</pre>
-              } @else {
-                <pre class="language-json"><code class="language-json">{{ jsonOutput }}</code></pre>
-              }
+          <!-- JSON Output -->
+          @else if (viewMode === 'raw' && jsonOutput) {
+            <div class="json-output" role="region" aria-label="Formatted JSON output">
+              <div class="output-content" [class.minified-container]="isMinified">
+                @if (isMinified) {
+                  <pre class="minified-json" aria-label="Minified JSON">{{ minifiedOutput }}</pre>
+                } @else {
+                  <pre class="language-json" aria-label="Formatted JSON">
+                    <code class="language-json">{{ jsonOutput }}</code>
+                  </pre>
+                }
+              </div>
             </div>
-          </div>
-        }
+          }
 
-
-
-        <!-- Empty State -->
-        @else {
-          <div class="empty-state">
-            <mat-icon>code_off</mat-icon>
-            <p>Formatted JSON will appear here...</p>
-          </div>
-        }
+          <!-- Empty State -->
+          @else {
+            <div class="empty-state" role="status" aria-live="polite">
+              <mat-icon aria-hidden="true">code_off</mat-icon>
+              <p>Formatted JSON will appear here...</p>
+            </div>
+          }
+        </div>
       </div>
-    </div>
+    </section>
   </div>
-</div>
+</section>

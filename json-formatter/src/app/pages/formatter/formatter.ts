@@ -347,6 +347,31 @@ export class Formatter implements OnInit, OnDestroy {
     this.showError(this.conversionError);
     console.error(`Error converting to ${format}:`, error);
   }
+
+  /**
+   * Validates the JSON input and displays appropriate messages
+   */
+  validateJson() {
+    if (!this.jsonInput) {
+      this.showError('Please enter some JSON to validate');
+      return;
+    }
+
+    try {
+      JSON.parse(this.jsonInput);
+      this.showSuccess('Valid JSON!');
+    } catch (e) {
+      this.showError('Invalid JSON: ' + (e as Error).message);
+    }
+  }
+
+  /**
+   * Downloads the current content as a file
+   */
+  downloadFile() {
+    this.downloadCurrentContent();
+  }
+
   /**
    * Highlights JSON code using Prism.js
    * Uses requestAnimationFrame for better performance and to ensure DOM is ready

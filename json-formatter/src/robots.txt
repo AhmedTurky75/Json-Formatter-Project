@@ -1,22 +1,46 @@
-# Allow all web crawlers to access all parts of the site
+# robots.txt for Lite JSON Formatter
+# https://litejsonformatter.com/robots.txt
+
+# Global rules for all crawlers
 User-agent: *
 Allow: /
-
-# Sitemap location
-Sitemap: https://jsonformatter.example.com/sitemap.xml
-
-# Crawl-delay parameter to limit the request rate (requests per second)
-# Adjust this value based on your server's capacity
-Crawl-delay: 10
-
-# Disallow access to admin and API endpoints
 Disallow: /admin/
 Disallow: /api/
+Disallow: /*.json$
+Disallow: /*?*
 
-# Disallow access to source code and configuration files
+# Crawl-delay: 5 seconds (5 requests per second)
+Crawl-delay: 5
+
+# Development and system files
 Disallow: /src/
 Disallow: /e2e/
 Disallow: /node_modules/
+Disallow: /*.ts$
+Disallow: /*.map$
+
+# Sitemap location
+Sitemap: https://litejsonformatter.com/sitemap.xml
+
+# Common web crawlers with specific rules
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 2
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 3
+
+User-agent: Yandex
+Allow: /
+Crawl-delay: 3
+
+# Block AI crawlers
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
 
 # Allow all static assets
 Allow: /*.css$

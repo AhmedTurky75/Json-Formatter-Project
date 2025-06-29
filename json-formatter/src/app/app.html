@@ -1,18 +1,28 @@
-<div class="app-container">
-  <!-- Fixed Header -->
-  <header class="app-header-container">
+<!-- Skip to main content link for screen readers -->
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<div class="app-container" role="document">
+  <!-- Application Header -->
+  <header class="app-header-container" role="banner">
     <app-header [title]="title"></app-header>
   </header>
 
-  <!-- Scrollable Content -->
+  <!-- Main Content Area -->
   <div class="content-wrapper">
-    <main class="app-main">
+    <!-- Main Content -->
+    <main id="main-content" class="app-main" role="main" tabindex="-1">
       <div class="container">
+        <!-- Page title will be set by the router outlet -->
         <router-outlet></router-outlet>
       </div>
     </main>
 
     <!-- Footer -->
-    <app-footer></app-footer>
+    <app-footer role="contentinfo"></app-footer>
   </div>
+
+  <!-- Skip to top button for better navigation -->
+  <button class="skip-to-top" aria-label="Back to top">
+    <span class="material-icons" aria-hidden="true">arrow_upward</span>
+  </button>
 </div>
