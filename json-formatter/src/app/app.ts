@@ -37,7 +37,6 @@ import 'prismjs/themes/prism-tomorrow.css'; // Dark theme
     MatIconModule,
     MatCardModule,
     MatSnackBarModule,
-    ThemeToggle,
     Header,
     FooterComponent
   ],
