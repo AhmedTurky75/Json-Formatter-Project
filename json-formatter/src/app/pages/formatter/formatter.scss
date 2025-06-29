@@ -1,6 +1,41 @@
 @use '@angular/material' as mat;
 @use 'sass:map';
 
+/* Snackbar styles */
+::ng-deep .mat-mdc-snack-bar-container {
+  &.success-snackbar {
+    --mdc-snackbar-container-color: #10B981; /* More vibrant green */
+    --mat-mdc-snack-bar-button-color: #fff;
+    background-color: #10B981 !important;
+    border: 1px solid #0D9F74;
+  }
+
+  &.error-snackbar {
+    --mdc-snackbar-container-color: #EF4444; /* More vibrant red */
+    --mat-mdc-snack-bar-button-color: #fff;
+    background-color: #EF4444 !important;
+    border: 1px solid #DC2626;
+  }
+
+  .mdc-snackbar__surface {
+    padding: 0 16px !important;
+    min-width: 0 !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .mdc-snackbar__label {
+    padding: 0 !important;
+    color: white !important;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .mat-mdc-snack-bar-actions {
+    display: none !important;
+  }
+}
+
 :host {
   display: block;
   height: 100%;
