@@ -1,4 +1,4 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, inject, provideZoneChangeDetection } from '@angular/core';
 import { provideHttpClient, withInterceptorsFromDi, withJsonpSupport } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
@@ -8,7 +8,9 @@ import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
+import { getAnalytics, provideAnalytics } from '@angular/fire/analytics';
 import { environment } from '../environments/environment';
+import { AnalyticsService } from './services/analytics.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -16,6 +18,24 @@ export const appConfig: ApplicationConfig = {
       eventCoalescing: true,
       runCoalescing: true
     }),
+    provideAnalytics(() => getAnalytics()),
+    {
+      provide: AnalyticsService,
+      useFactory: () => {
+        if (environment.production) {
+          return new AnalyticsService();
+        }
+        // Return a mock service in development
+        return {
+          trackEvent: (eventName: string, eventParams: any) => {
+            console.log(`[Analytics] Event: ${eventName}`, eventParams);
+          },
+          sendPageView: (url: string) => {
+            console.log(`[Analytics] Page View: ${url}`);
+          }
+        };
+      }
+    },
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
