@@ -2,12 +2,9 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
-
-interface FeatureCard {
-  icon: string;
-  title: string;
-  description: string;
-}
+import { FeaturesSectionComponent } from '../../components/features-section/features-section';
+import { StatsSectionComponent } from '../../components/stats-section/stats-section';
+import { FeatureCard, StatItem } from '../../components/features-section/features-section';
 
 interface TeamMember {
   name: string;
@@ -27,13 +24,15 @@ interface TeamMember {
   imports: [
     CommonModule,
     MatIconModule,
-    RouterModule
+    RouterModule,
+    FeaturesSectionComponent,
+    StatsSectionComponent
   ],
   templateUrl: './about.html',
   styleUrls: ['./about.scss']
 })
 export class AboutComponent {
-  // Features section
+  // Features section data
   features: FeatureCard[] = [
     {
       icon: 'code',
@@ -67,10 +66,8 @@ export class AboutComponent {
     }
   ];
 
-  // Team and technologies sections removed for privacy
-
-  // Statistics (example values)
-  stats = [
+  // Statistics data
+  stats: StatItem[] = [
     { value: '100%', label: 'Client-Side Processing' },
     { value: '0', label: 'Data Stored' },
     { value: '∞', label: 'Usage Limit' },

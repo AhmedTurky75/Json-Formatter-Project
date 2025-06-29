@@ -1,0 +1,14 @@
+<section class="features-section" [style.max-width]="width">
+  <h2>{{title}}</h2>
+  <p class="section-description" *ngIf="description">{{description}}</p>
+  
+  <div class="features-grid">
+    <div class="feature-card" *ngFor="let feature of displayFeatures">
+      <div class="feature-icon">
+        <mat-icon>{{feature.icon}}</mat-icon>
+      </div>
+      <h3>{{feature.title}}</h3>
+      <p>{{feature.description}}</p>
+    </div>
+  </div>
+</section>
