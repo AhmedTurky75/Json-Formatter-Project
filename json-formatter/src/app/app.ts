@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy, inject, PLATFORM_ID, Inject, effect, runInInjectionContext, Injector } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { DOCUMENT, isPlatformBrowser, CommonModule } from '@angular/common';
+import { fromEvent, throttleTime } from 'rxjs';
 import { Router, RouterModule, RouterOutlet, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 import { filter, map, mergeMap } from 'rxjs/operators';
@@ -44,6 +45,7 @@ import 'prismjs/themes/prism-tomorrow.css'; // Dark theme
   styles: [`
     :host {
       --header-height: 64px;
+      --scroll-button-size: 48px;
       display: block;
       min-height: 100vh;
     }
@@ -79,7 +81,58 @@ import 'prismjs/themes/prism-tomorrow.css'; // Dark theme
     .container {
       margin: 0 auto;
       width: 100%;
+      max-width: 1200px;
       padding: 0 1rem;
+    }
+
+    /* Scroll to top button */
+    .scroll-to-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: var(--scroll-button-size);
+      height: var(--scroll-button-size);
+      border-radius: 50%;
+      background: #3f51b5;
+      color: white;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+
+    .scroll-to-top.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .scroll-to-top:hover {
+      background: #303f9f;
+      transform: translateY(-2px);
+    }
+
+    .scroll-to-top:active {
+      transform: translateY(1px);
+    }
+
+    .scroll-to-top .material-icons {
+      font-size: 24px;
+    }
+
+    /* Dark theme overrides */
+    :host-context(.dark) .scroll-to-top {
+      background: #5c6bc0;
+    }
+
+    :host-context(.dark) .scroll-to-top:hover {
+      background: #3949ab;
     }
   `]
 })
@@ -94,8 +147,13 @@ export class App implements OnInit, OnDestroy {
   private activatedRoute = inject(ActivatedRoute);
   private meta = inject(Meta);
   private titleService = inject(Title);
-  
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+  showScrollButton = false;
+  private scrollThreshold = 300; // Pixels to scroll before showing the button
+
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    @Inject(DOCUMENT) private document: Document
+  ) {
     this.currentYear = new Date().getFullYear();
     
     // Initialize theme in the constructor to ensure it runs in the correct context
@@ -124,6 +182,7 @@ export class App implements OnInit, OnDestroy {
       if (this.prismLoaded) {
         setTimeout(() => this.highlightAllCode(), 100);
       }
+      this.setupScrollListener();
     }
   }
 
@@ -203,8 +262,8 @@ export class App implements OnInit, OnDestroy {
 
   private showWelcomeMessage(): void {
     // Only show welcome message on initial load
-    if (!sessionStorage.getItem('welcomeShown')) {
-      this.snackBar.open('Welcome to JSON Formatter!', 'Dismiss', {
+    if (isPlatformBrowser(this.platformId) && !sessionStorage.getItem('welcomeShown')) {
+      this.snackBar.open('Welcome to Lite JSON Formatter!', 'Dismiss', {
         duration: 4000,
         horizontalPosition: 'center',
         verticalPosition: 'top',
@@ -212,6 +271,32 @@ export class App implements OnInit, OnDestroy {
       });
       
       sessionStorage.setItem('welcomeShown', 'true');
+    }
+  }
+
+  private setupScrollListener() {
+    if (isPlatformBrowser(this.platformId)) {
+      fromEvent(window, 'scroll')
+        .pipe(
+          throttleTime(100)
+        )
+        .subscribe(() => this.onWindowScroll());
+    }
+  }
+
+  private onWindowScroll() {
+    if (isPlatformBrowser(this.platformId)) {
+      const scrollPosition = window.scrollY || this.document.documentElement.scrollTop;
+      this.showScrollButton = scrollPosition > this.scrollThreshold;
+    }
+  }
+
+  scrollToTop() {
+    if (isPlatformBrowser(this.platformId)) {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
     }
   }
 }

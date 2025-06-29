@@ -21,8 +21,14 @@
     <app-footer role="contentinfo"></app-footer>
   </div>
 
-  <!-- Skip to top button for better navigation -->
-  <button class="skip-to-top" aria-label="Back to top">
-    <span class="material-icons" aria-hidden="true">arrow_upward</span>
+  <!-- Scroll to top button - appears when scrolling down -->
+  <button 
+    *ngIf="showScrollButton"
+    (click)="scrollToTop()"
+    class="scroll-to-top"
+    [class.visible]="showScrollButton"
+    aria-label="Back to top"
+    title="Scroll to top">
+    <span class="material-icons" aria-hidden="true">keyboard_arrow_up</span>
   </button>
 </div>
