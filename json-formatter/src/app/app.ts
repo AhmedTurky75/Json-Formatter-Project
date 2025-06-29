@@ -81,7 +81,6 @@ import 'prismjs/themes/prism-tomorrow.css'; // Dark theme
     .container {
       margin: 0 auto;
       width: 100%;
-      max-width: 1200px;
       padding: 0 1rem;
     }
 
