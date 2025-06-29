@@ -25,13 +25,13 @@ export const appConfig: ApplicationConfig = {
         if (environment.production) {
           return new AnalyticsService();
         }
-        // Return a mock service in development
+        // Return a mock service in development that does nothing
         return {
           trackEvent: (eventName: string, eventParams: any) => {
-            console.log(`[Analytics] Event: ${eventName}`, eventParams);
+            // No-op in development
           },
           sendPageView: (url: string) => {
-            console.log(`[Analytics] Page View: ${url}`);
+            // No-op in development
           }
         };
       }

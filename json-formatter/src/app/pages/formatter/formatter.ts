@@ -262,7 +262,7 @@ export class Formatter implements OnInit, OnDestroy {
       this.viewMode = 'raw';
       this.error = null;
       this.conversionError = null;
-      console.log(this.convertedOutput);
+
       this.cdr.detectChanges();
       this.highlightConvertedCode();
     } catch (error) {
@@ -281,7 +281,7 @@ export class Formatter implements OnInit, OnDestroy {
       this.conversionError = null;
       this.isTreeView = false;
       this.viewMode = 'raw';
-      console.log(this.convertedOutput);
+
       this.cdr.detectChanges();
       this.highlightConvertedCode();
     } catch (error) {
