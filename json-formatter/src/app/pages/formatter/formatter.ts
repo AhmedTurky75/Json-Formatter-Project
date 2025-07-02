@@ -10,7 +10,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { JsonTreeView } from '../../components/json-tree-view/json-tree-view';
 import { JsonViewerComponent } from '../../components/json-viewer/json-viewer';
-import * as xmljs from 'xml-js';
+import { XMLBuilder  } from 'fast-xml-parser';
 import * as yaml from 'js-yaml';
 import JsonToCSV from 'json-to-csv-export';
 
@@ -255,7 +255,13 @@ export class Formatter implements OnInit, OnDestroy {
     try {
       const input = this.jsonInput;
       const parsed = JSON.parse(input);
-      this.convertedOutput = xmljs.js2xml(parsed, { compact: true, spaces: 2 });
+      const builder = new XMLBuilder({
+        format: true,
+        indentBy: '  ', // 2 spaces
+        ignoreAttributes: false,
+      });
+      
+      this.convertedOutput = builder.build(parsed);
       this.currentFormat = 'xml';
       this.isMinified = false;
       this.isTreeView = false;
