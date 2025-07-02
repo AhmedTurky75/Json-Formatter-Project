@@ -192,7 +192,15 @@ export class Formatter implements OnInit, OnDestroy {
     this.jsonOutput = '';
     this.parsedOutput = null;
     this.error = null;
-    this.jsonInputRef.nativeElement.focus();
+  
+    // Safely focus the input if the reference exists
+    if (this.jsonInputRef?.nativeElement) {
+      try {
+        this.jsonInputRef.nativeElement.focus();
+      } catch (e) {
+        console.warn('Could not focus input element:', e);
+      }
+    }
   }
   
   loadSample() {
