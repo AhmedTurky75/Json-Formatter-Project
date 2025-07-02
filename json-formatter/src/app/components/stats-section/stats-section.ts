@@ -22,7 +22,7 @@ export class StatsSectionComponent {
     { value: '0', label: 'Data Stored' },
     { value: '∞', label: 'Usage Limit' },
     { value: '24/7', label: 'Availability' },
-    { value: '15M+', label: 'Monthly Users' }
+    { value: '16M+', label: 'Monthly Users' }
   ];
 
   get displayStats(): StatItem[] {

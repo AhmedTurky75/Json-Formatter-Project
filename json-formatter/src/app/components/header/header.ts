@@ -38,7 +38,7 @@ interface NavItem {
             <mat-icon>menu</mat-icon>
           </button>
           <a [routerLink]="['/']" class="logo">
-            <img src="/JsonFormatterIcon2.png" alt="JSON Formatter Logo" class="logo-image">
+            <img src="/JsonFormatterIcon.png" alt="JSON Formatter Logo" class="logo-image">
             <h1 class="logo-text">{{ title }}</h1>
           </a>
         </div>
