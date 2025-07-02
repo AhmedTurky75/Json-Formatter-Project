@@ -5,7 +5,7 @@
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
   <!-- Homepage -->
   <url>
-    <loc>https://jsonformatter.example.com/</loc>
+<loc>https://litejsonformatter.com/</loc>
     <lastmod>2025-06-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
@@ -13,7 +13,7 @@
   
   <!-- FAQ Page -->
   <url>
-    <loc>https://jsonformatter.example.com/faq</loc>
+    <loc>https://litejsonformatter.com/faq</loc>
     <lastmod>2025-06-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -21,7 +21,7 @@
   
   <!-- About Page -->
   <url>
-    <loc>https://jsonformatter.example.com/about</loc>
+    <loc>https://litejsonformatter.com/about</loc>
     <lastmod>2025-06-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -29,7 +29,7 @@
   
   <!-- Privacy Policy Page -->
   <url>
-    <loc>https://jsonformatter.example.com/privacy-policy</loc>
+    <loc>https://litejsonformatter.com/privacy-policy</loc>
     <lastmod>2025-06-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
@@ -37,7 +37,7 @@
   
   <!-- Changelog Page -->
   <url>
-    <loc>https://jsonformatter.example.com/changelog</loc>
+    <loc>https://litejsonformatter.com/changelog</loc>
     <lastmod>2025-06-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>

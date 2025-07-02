@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://jsonformatter.example.com/sitemap.xml
+Sitemap: https://litejsonformatter.com/sitemap.xml
 
 # Crawl-delay parameter to limit the request rate (requests per second)
 # Adjust this value based on your server's capacity
@@ -32,5 +32,3 @@ Allow: /*.woff2$
 Allow: /*.ttf$
 Allow: /*.eot$
 
-# Host
-Host: jsonformatter.example.com
