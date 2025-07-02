@@ -14,29 +14,16 @@
   </section>
 
   <!-- Features Section -->
-  <section class="features">
-    <h2>Why Choose Our JSON Formatter?</h2>
-    <p class="section-description">Experience the difference with our feature-rich JSON tool</p>
-    
-    <div class="features-grid">
-      <div class="feature-card" *ngFor="let feature of features">
-        <div class="feature-icon">
-          <mat-icon>{{feature.icon}}</mat-icon>
-        </div>
-        <h3>{{feature.title}}</h3>
-        <p>{{feature.description}}</p>
-      </div>
-    </div>
-  </section>
-
+  <app-features-section 
+    [title]="'Why Choose Our JSON Formatter?'"
+    [description]="'Experience the difference with our feature-rich JSON tool'"
+    [features]="features">
+  </app-features-section>
 
   <!-- Stats Section -->
-  <section class="stats">
-    <div class="stat-item" *ngFor="let stat of stats">
-      <div class="stat-value">{{stat.value}}</div>
-      <div class="stat-label">{{stat.label}}</div>
-    </div>
-  </section>
+  <app-stats-section 
+    [stats]="stats">
+  </app-stats-section>
 
 
   <!-- CTA Section -->

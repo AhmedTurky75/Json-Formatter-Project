@@ -1,0 +1,126 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.stats-section {
+  padding: 4rem 1rem;
+  background-color: transparent;
+  color: var(--text-color);
+  position: relative;
+  overflow: hidden;
+  margin: 2rem 0;
+  border: none;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 2rem;
+    text-align: center;
+  }
+
+  .stat-item {
+    padding: 2rem 1rem;
+    background: var(--card-bg);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(4px);
+    
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      border-color: var(--primary-color);
+    }
+  }
+
+  .stat-value {
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    line-height: 1;
+    color: var(--primary-color);
+  }
+
+  .stat-label {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    line-height: 1.4;
+  }
+}
+
+// Dark theme styles
+:host-context(.dark-theme) {
+  .stats-section {
+    background-color: transparent;
+    
+    .stat-item {
+      background: rgba(255, 255, 255, 0.03);
+      border-color: rgba(255, 255, 255, 0.1);
+      
+      &:hover {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: var(--primary-color);
+      }
+      
+      .stat-value {
+        color: var(--primary-color);
+      }
+      
+      .stat-label {
+        color: var(--text-secondary);
+      }
+    }
+  }
+}
+
+// Responsive styles
+@media (max-width: 768px) {
+  .stats-section {
+    padding: 3rem 1rem;
+    
+    .stats-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+    
+    .stat-item {
+      padding: 1.5rem 0.5rem;
+    }
+    
+    .stat-value {
+      font-size: 2.2rem;
+    }
+    
+    .stat-label {
+      font-size: 1rem;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-section {
+    .stats-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+}

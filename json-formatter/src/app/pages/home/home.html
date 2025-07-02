@@ -1,1 +1,16 @@
-<app-formatter></app-formatter>
+<main class="home-container">
+  <app-formatter></app-formatter>
+  
+  <!-- Features Section -->
+  <app-features-section 
+    [title]="'Why Choose Our JSON Formatter?'"
+    [description]="'Experience the difference with our feature-rich JSON tool'"
+    [features]="features"
+    [width]="'95%'">
+  </app-features-section>
+
+  <!-- Stats Section -->
+  <app-stats-section 
+    [stats]="stats">
+  </app-stats-section>
+</main>
